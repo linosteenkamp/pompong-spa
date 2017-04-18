@@ -66,13 +66,29 @@ export class ContentComponent implements OnInit {
   private filterShowsOnStatus (): void {
     var self = this;
 
-    this.filteredShows = this.shows.filter(function (item) {
-      var status = item.status;
-      return self.showStatus.some(function (item) {
-        return (item.name === status && item.selected === true);
-      })
+    this.filteredShows = this.shows.filter(function (show) {
+      return (self.showStatusFilter(show) && self.genreFilter(show.genres))
     });
 
-    // console.info(this.filteredShows.length)
+    console.info(this.filteredShows.length)
+  }
+
+  private showStatusFilter(show) {
+    var showStatus = show.status;
+
+    return this.showStatus.some(function (item) {
+      return (item.name === showStatus && item.selected === true);
+    });
+  }
+
+  private genreFilter(genres) {
+    var self = this;
+
+    return genres.some(function (item) {
+      var genre = item.genre;
+      return self.genres.some( function (item) {
+        return (item.name === genre && item.selected === true);
+      });
+    });
   }
 }

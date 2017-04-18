@@ -8,12 +8,3 @@ export interface Genre {
     genre_id: number;
   };
 }
-
-// "id": 9,
-// "genre": "Reality",
-// "created_at": "2016-02-01 17:34:36",
-// "updated_at": "2016-02-01 17:34:36",
-// "pivot": {
-//   "show_id": 280009,
-//   "genre_id": 9
-// }

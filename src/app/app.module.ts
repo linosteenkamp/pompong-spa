@@ -2,7 +2,10 @@ import { BrowserModule }            from '@angular/platform-browser';
 import { NgModule }                 from '@angular/core';
 import { FormsModule }              from '@angular/forms';
 import { HttpModule }               from '@angular/http';
-import { MaterialModule }           from '@angular/material';
+import {
+  MdToolbarModule, MdMenuModule, MdSidenavModule,
+  MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule
+}                                   from '@angular/material';
 import { FlexLayoutModule }         from '@angular/flex-layout';
 import { BrowserAnimationsModule }  from "@angular/platform-browser/animations";
 import { InViewportModule }         from 'ng-in-viewport';
@@ -28,7 +31,14 @@ import 'hammerjs';
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
+    MdToolbarModule,
+    MdMenuModule,
+    MdSidenavModule,
+    MdButtonModule,
+    MdIconModule,
+    MdCheckboxModule,
+    MdCardModule,
+    MdInputModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
