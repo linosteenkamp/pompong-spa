@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component }        from '@angular/core';
+import { tokenNotExpired }  from "angular2-jwt";
+import { ShowsService }     from "./service/shows.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,27 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app works!';
-}
+  title = 'Pompong';
+
+  constructor(private showsService: ShowsService) {}
+
+  downloadRsyncFile() {
+    this.showsService.getRsyncFile().then(data => this.downloadFile(data))
+  }
+
+  downloadFile(data){
+    var url = "https://pompong.steenkamps.org/" + data["file_name"];
+
+    var link = document.createElement("a");
+    link.download = "a";
+    link.href = url;
+    link.click();
+  }
+
+  loggedIn() {
+    return tokenNotExpired();
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+  }}

@@ -1,0 +1,100 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+@mixin app-tag {
+  height:12px;
+  width:auto;
+  padding:3px;
+  border-radius:30px;
+  font-size:.4em;
+  margin: 5px;
+  text-align: center;
+}
+
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.app-tag-primary{
+  @include app-tag;
+  background-color: map_get($mat-blue, 100);
+}
+
+.app-tag-accent{
+  @include app-tag;
+  background-color: map_get($mat-amber, 100);
+}
+
+.app-tag-warn {
+  @include app-tag;
+  background-color: map_get($mat-red, 100);
+}
+
+.app-selected-button {
+  border-bottom: map_get($mat-amber, 100) solid;
+}
+
+.mat-card {
+  margin: 5px;
+}
+
+.mat-card-content {
+  margin-bottom: 41px;
+}
+
+.app-card-content {
+  margin-top: 5px;
+  height: 150px;
+  overflow: scroll;
+}
+
+.app-card {
+  min-width: 400px;
+  min-height: 365px;
+  //border: floralwhite solid;
+}
+
+.mat-card-footer {
+  background-color: map_get($mat-blue, 50);
+  height: 65px;
+}
+
+.mat-checkbox {
+  margin-left: 20px;
+  //margin-right: 20px;
+}
+
+.example-fab {
+  position: absolute;
+  left: -28px;
+  @include vertical-align();
+  //bottom: 20px;
+}
+
+.example-container {
+  //width: 500px;
+  //height: 300px;
+  //border: 1px solid rgba(0, 0, 0, 0.5);
+  display:block;
+  position:absolute;
+  top:60px;
+  bottom:1px;
+  left:0px;
+  right:0px;
+  //z-index: -1;
+}
+
+//.example-sidenav-content {
+//  display: flex;
+//  height: 100%;
+//  align-items: center;
+//  justify-content: center;
+//}
+
+.example-sidenav {
+  padding: 20px;
+}

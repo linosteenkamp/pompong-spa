@@ -1,0 +1,48 @@
+<div class="flex-container app-content" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap="wrap">
+  <div fxFlex.xs="310px" fxFlex="400px">
+    <form #f="ngForm" (ngSubmit)="onLogin(f.value)" *ngIf="!loggedIn()">
+      <md-card>
+        <md-card-header>
+          <md-card-subtitle>
+            Login
+          </md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+          <div class="app-card-content">
+            <p>
+              <md-input-container class="full-width" dividerColor="accent" floatPlaceholder="true">
+                <input
+                  mdInput
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  [(ngModel)]="credentials.email"
+                  [required]="true"
+                >
+              </md-input-container>
+            </p>
+            <p>
+              <md-input-container class="full-width" dividerColor="accent">
+                <input
+                  mdInput
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  [(ngModel)]="credentials.password">
+              </md-input-container>
+            </p>
+          </div>
+        </md-card-content>
+        <md-card-actions>
+          <div class="flex-container" fxLayout="row" fxLayoutAlign="space-around">
+            <p class="app-error-msg"> {{errorMsg}} </p>
+            <span class="app-toolbar-filler"></span>
+            <div fxFlex.xs="67px" fxFlex="88px" fxFlexAlign="baseline">
+              <button type="submit" md-raised-button color="accent">Login</button>
+            </div>
+          </div>
+        </md-card-actions>
+      </md-card>
+    </form>
+  </div>
+</div>

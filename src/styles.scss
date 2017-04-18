@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('~https://fonts.googleapis.com/icon?family=Material+Icons');
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+body {
+  font-family: Roboto;
+}
+
+$primary: mat-palette($mat-blue);
+$accent:  mat-palette($mat-amber, A200, A100, A400);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+
+.m2app-dark {
+  $dark-primary: mat-palette($mat-pink, 700, 500, 900);
+  $dark-accent:  mat-palette($mat-blue-grey, A200, A100, A400);
+  $dark-warn:    mat-palette($mat-deep-orange);
+
+  $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+  @include angular-material-theme($dark-theme);
+}
+
+.app-header {
+  position:absolute;
+  top:0px;
+  left:0px;
+  height:60px;
+  right:0px;
+  overflow:hidden;
+}
+
+.app-content {
+  display:block;
+  position:absolute;
+  top:0px;
+  bottom:1px;
+  left:0px;
+  right:0px;
+  overflow: scroll;
+  z-index: -1;
+}
+
+.app-footer{
+  position:absolute;
+  bottom:0px;
+  height:30px;
+  left:0px;
+  right:0px;
+  overflow:hidden;
+}
+

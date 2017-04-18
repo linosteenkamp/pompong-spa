@@ -1,3 +1,24 @@
-<h1>
-  {{title}}
-</h1>
+<div class="app-header flex-container" fxLayout="row" fxLayoutAlign="end">
+  <md-toolbar>
+    <a md-button routerLink="/content" class="app-toolbar-button">{{ title }}</a>
+    <span class="app-toolbar-filler"></span>
+    <button md-icon-button *ngIf="loggedIn()" (click)="downloadRsyncFile()">
+      <i class="material-icons amber500 md-36">get_app</i>
+    </button>
+    <button md-icon-button [mdMenuTriggerFor]="menu">
+      <i class="material-icons amber500 md-36">face</i>
+    </button>
+    <md-menu #menu="mdMenu" [overlapTrigger]="false">
+      <button md-menu-item *ngIf="!loggedIn()" routerLink="/login">
+        <md-icon>lock_open</md-icon>
+        <span>Login</span>
+      </button>
+      <button md-menu-item *ngIf="loggedIn()" (click)="logout()" routerLink="/login">
+        <md-icon>lock</md-icon>
+        <span>Logout</span>
+      </button>
+    </md-menu>
+  </md-toolbar>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,94 @@
+
+<md-sidenav-container class="example-container">
+  <button md-fab color="accent" class="example-fab" (click)="sidenav.toggle()">
+    &nbsp;&nbsp;&nbsp;<md-icon>keyboard_arrow_right</md-icon>
+  </button>
+
+  <md-sidenav #sidenav class="example-sidenav">
+    <h4 align="center">Filters</h4>
+
+    <h5> Show Status</h5>
+    <div *ngFor="let status of showStatus">
+      <md-checkbox [checked]="status.selected" (change)="showStatusClicked(status)" align="start">
+        {{ status.name }}
+      </md-checkbox>
+    </div>
+
+    <h5> Genres </h5>
+    <div *ngFor="let status of genres">
+      <md-checkbox [checked]="status.selected" (change)="showStatusClicked(status)" align="start">
+        {{ status.name }}
+      </md-checkbox>
+    </div>
+  </md-sidenav>
+
+  <div #content class="flex-container app-content" fxLayout="row" fxLayoutAlign="start" fxLayoutWrap="wrap">
+
+    <div class="app-card"
+         fxFlex="400px"
+         *ngFor="let show of filteredShows"
+         in-viewport
+         [inViewportOptions]="{ rootElement: content, partial: true }"
+         (inViewportAction)="inViewport($event, show)"
+    >
+      <md-card *ngIf="show.display_card">
+        <img md-card-image
+             src="https://pompong.steenkamps.org/{{show.image_url}}"
+             alt="{{show.show_name}}"
+             height="71" width="384"
+        >
+        <md-card-content>
+          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
+            <div
+              [ngClass]="{'app-selected-button':!show.display_overview,'':show.display_overview}"
+              fxFlex="88px"
+              fxFlexAlign="baseline"
+            >
+              <button md-button (click)="tabSelected('seasons', show)">Seasons</button>
+            </div>
+            <div
+              [ngClass]="{'app-selected-button':show.display_overview,'':!show.display_overview}"
+              fxFlex="88px"
+              fxFlexAlign="baseline"
+            >
+              <button md-button (click)="tabSelected('overview', show)">Overview</button>
+            </div>
+          </div>
+          <div *ngIf="!show.display_overview" class="app-card-content">
+            <div class="flex-container" fxLayout="row" fxLayoutAlign="start start" fxLayoutWrap="wrap">
+              <div fxFlex="80px" fxFlexAlign="start" *ngFor="let season of show.seasons">
+                <md-checkbox [checked]="season.selected" (change)="cseasonClicked(show, season)" align="start">
+                  {{ season.season }}
+                </md-checkbox>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="show.display_overview" class="app-card-content">
+            <p>{{show.overview}}</p>
+          </div>
+        </md-card-content>
+        <md-card-footer>
+          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
+            <div fxFlex="90px" fxFlexAlign="baseline">
+              <div class="app-tag-accent">{{ show.quality }}</div>
+            </div>
+            <div fxFlex="90px" fxFlexAlign="baseline">
+              <div class="app-tag-accent">{{ show.network }}</div>
+            </div>
+            <div fxFlex="90px" fxFlexAlign="baseline">
+              <div [ngClass]="{'app-tag-accent':show.status==='Continuing','app-tag-warn':show.status==='Ended'}">
+                {{ show.status }}
+              </div>
+            </div>
+          </div>
+          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
+            <div fxFlex="90px" fxFlexAlign="baseline" *ngFor="let genre of show.genres let i=index">
+              <div *ngIf="i<4" class="app-tag-primary">{{ genre.genre}} </div>
+            </div>
+          </div>
+        </md-card-footer>
+      </md-card>
+    </div>
+  </div>
+
+</md-sidenav-container>
