@@ -1,22 +1,44 @@
 
-<md-sidenav-container class="example-container">
-  <button md-fab color="accent" class="example-fab" (click)="sidenav.toggle()">
+<md-sidenav-container class="app-container">
+  <button md-fab class="app-fab" (click)="sidenav.toggle()">
     &nbsp;&nbsp;&nbsp;<md-icon>keyboard_arrow_right</md-icon>
   </button>
 
-  <md-sidenav #sidenav class="example-sidenav">
+  <md-sidenav #sidenav class="app-sidenav">
     <h4 align="center">Filters</h4>
 
     <h5> Show Status</h5>
-    <div *ngFor="let status of showStatus">
-      <md-checkbox [checked]="status.selected" (change)="showStatusClicked(status)" align="start">
+    <hr>
+    <md-checkbox
+      [checked]="statusSelected"
+      [indeterminate]="statusIndeterminate"
+      (change)="statusClicked()"
+      align="start"
+    >
+      All
+    </md-checkbox>
+    <div *ngFor="let status of statuses">
+      <md-checkbox
+        [checked]="status.selected"
+        (change)="filterClicked(status)"
+        align="start"
+      >
         {{ status.name }}
       </md-checkbox>
     </div>
 
     <h5> Genres </h5>
+    <hr>
+    <md-checkbox
+      [checked]="genresSelected"
+      [indeterminate]="genresIndeterminate"
+      (change)="genresClicked()"
+      align="start"
+    >
+      All
+    </md-checkbox>
     <div *ngFor="let status of genres">
-      <md-checkbox [checked]="status.selected" (change)="showStatusClicked(status)" align="start">
+      <md-checkbox [checked]="status.selected" (change)="filterClicked(status)" align="start">
         {{ status.name }}
       </md-checkbox>
     </div>
@@ -57,7 +79,7 @@
           <div *ngIf="!show.display_overview" class="app-card-content">
             <div class="flex-container" fxLayout="row" fxLayoutAlign="start start" fxLayoutWrap="wrap">
               <div fxFlex="80px" fxFlexAlign="start" *ngFor="let season of show.seasons">
-                <md-checkbox [checked]="season.selected" (change)="cseasonClicked(show, season)" align="start">
+                <md-checkbox [checked]="season.selected" (change)="seasonClicked(show, season)" align="start">
                   {{ season.season }}
                 </md-checkbox>
               </div>

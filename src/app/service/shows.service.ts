@@ -1,49 +1,45 @@
-import { Http, Headers, Response }  from "@angular/http";
+import { Response }                 from "@angular/http";
 import { Injectable }               from '@angular/core';
+import { AuthHttp }                 from "angular2-jwt";
 import 'rxjs/add/operator/toPromise';
 
 import { Show }                     from "../classes/show";
 import { User }                     from "../classes/user";
 import { Season }                   from "../classes/season";
 import { Genre }                    from "../classes/genre";
-import {forEach} from "@angular/router/src/utils/collection";
 
 @Injectable()
 export class ShowsService {
-
-  private token = localStorage.getItem('token');
-  private headers = new Headers({'Authorization': 'Bearer ' + this.token });
   private pompongUrl = 'https://pompong.steenkamps.org/api/';  // URL to web api
 
-
-  constructor(public http: Http) { }
+  constructor(public authHttp: AuthHttp) {}
 
   getShows() {
-    return this.http
-      .get(this.pompongUrl + 'shows', {headers: this.headers})
+    return this.authHttp
+      .get(this.pompongUrl + 'shows')
       .toPromise()
       .then(this.extractShowData)
       .catch(this.handleError);
   }
 
   getGerres() {
-    return this.http
-      .get(this.pompongUrl + 'genres', {headers: this.headers})
+    return this.authHttp
+      .get(this.pompongUrl + 'genres')
       .toPromise()
       .then(this.extractGenreData)
       .catch(this.handleError);
   }
 
   getRsyncFile() {
-    return this.http
-      .get(this.pompongUrl + 'rsync', {headers: this.headers})
+    return this.authHttp
+      .get(this.pompongUrl + 'rsync')
       .toPromise()
       .then((res:Response) => res.json())
       .catch(this.handleError);
   }
 
   updateShow(show) {
-    return this.http.put(this.pompongUrl + 'shows/' + show.id + '/update', show, {headers: this.headers})
+    return this.authHttp.put(this.pompongUrl + 'shows/' + show.id + '/update', show)
       .toPromise()
       .then()
       .catch(this.handleError);
@@ -53,8 +49,8 @@ export class ShowsService {
     let body = res.json();
     let genres = [];
 
-    for (var i = 0; i < body.length; i++) {
-      var tmp = {
+    for (let i = 0; i < body.length; i++) {
+      let tmp = {
         "name": body[i].genre,
         "selected": true
       };
@@ -67,15 +63,15 @@ export class ShowsService {
     let body = res.json();
     let shows = [];
 
-    for (var i = 0; i < body.length; i++) {
+    for (let i = 0; i < body.length; i++) {
       let seasons = [];
       let genres = [];
 
-      for (var k = 0; k < body[i].seasons.length; k++) {
+      for (let k = 0; k < body[i].seasons.length; k++) {
         let users = [];
 
-        for (var j = 0; j < body[i].seasons[k].users.length; j++) {
-          var user: User = {
+        for (let j = 0; j < body[i].seasons[k].users.length; j++) {
+          let user: User = {
             id: body[i].seasons[k].users[j].id,
             name: body[i].seasons[k].users[j].name,
             email: body[i].seasons[k].users[j].email,
@@ -89,7 +85,7 @@ export class ShowsService {
           users.push(user);
         }
 
-        var season: Season = {
+        let season: Season = {
           id: body[i].seasons[k].id,
           show_id : body[i].seasons[k].show_id,
           season: body[i].seasons[k].season,
@@ -100,8 +96,8 @@ export class ShowsService {
         seasons.push(season);
       }
 
-      for (var k = 0; k < body[i].genres.length; k++) {
-        var genre: Genre = {
+      for (let k = 0; k < body[i].genres.length; k++) {
+        let genre: Genre = {
           id: body[i].genres[k].id,
           genre: body[i].genres[k].genre,
           created_at: body[i].genres[k].created_at,
@@ -114,7 +110,7 @@ export class ShowsService {
         genres.push(genre);
       }
 
-      var show: Show = {
+      let show: Show = {
         id: body[i].id,
         lang: body[i].lang,
         network: body[i].network,

@@ -9,12 +9,18 @@ import { ShowsService }                         from "../../service/shows.servic
 export class ContentComponent implements OnInit {
 
   private shows;
-  private genres;
   private filteredShows;
-  private showStatus;
+
+  private genres;
+  private genresSelected = true;
+  private genresIndeterminate = false;
+
+  private statuses;
+  private statusSelected = true;
+  private statusIndeterminate = false;
 
   constructor(private showsService: ShowsService, private ref: ChangeDetectorRef) {
-    this.showStatus =  [
+    this.statuses =  [
       { "name": "Continuing", "selected": true },
       { "name": "Ended", "selected": true },
     ];
@@ -28,7 +34,7 @@ export class ContentComponent implements OnInit {
   getShows(): void {
     this.showsService.getShows().then(shows => {
       this.shows = shows;
-      this.filterShowsOnStatus();
+      this.filterShows();
     });
   }
 
@@ -39,17 +45,13 @@ export class ContentComponent implements OnInit {
   }
 
   inViewport(event, show): void {
-    if (event.value) {
-      show.display_card = true;
-    } else {
-      show.display_card = false;
-    }
+    show.display_card = event.value;
     this.ref.detectChanges();
   }
 
-  cseasonClicked(show, season): void {
+  seasonClicked(show, season): void {
     season.selected = !season.selected;
-    this.showsService.updateShow(show);
+    this.showsService.updateShow(show).then();
     this.ref.detectChanges();
   }
 
@@ -58,37 +60,71 @@ export class ContentComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  showStatusClicked( status ): void {
-    status.selected = !status.selected;
-    this.filterShowsOnStatus();
+  genresClicked(): void {
+    this.genresSelected = !this.genresSelected;
+    this.genres.forEach(item => item.selected = this.genresSelected);
+    this.genresIndeterminate = false;
+    this.filterShows();
   }
 
-  private filterShowsOnStatus (): void {
-    var self = this;
+  statusClicked(): void {
+    this.statusSelected = !this.statusSelected;
+    this.statuses.forEach(item => item.selected = this.statusSelected);
+    this.statusIndeterminate = false;
+    this.filterShows();
+  }
+
+  filterClicked( status ): void {
+    status.selected = !status.selected;
+
+    this.genresIndeterminate = ContentComponent.filterChanged(this.genres);
+    if (!this.genresIndeterminate) {
+      this.genresSelected = this.genres[0].selected;
+    }
+
+    this.statusIndeterminate = ContentComponent.filterChanged(this.statuses);
+    if (!this.statusIndeterminate) {
+      this.statusSelected = this.statuses[0].selected;
+    }
+
+    this.filterShows();
+  }
+
+  private filterShows (): void {
+    let self = this;
 
     this.filteredShows = this.shows.filter(function (show) {
-      return (self.showStatusFilter(show) && self.genreFilter(show.genres))
+      return (self.statusFilter(show) && self.genreFilter(show.genres))
     });
 
     console.info(this.filteredShows.length)
   }
 
-  private showStatusFilter(show) {
-    var showStatus = show.status;
+  private statusFilter(show) {
+    let showStatus = show.status;
 
-    return this.showStatus.some(function (item) {
+    return this.statuses.some(function (item) {
       return (item.name === showStatus && item.selected === true);
     });
   }
 
   private genreFilter(genres) {
-    var self = this;
+    let self = this;
 
     return genres.some(function (item) {
-      var genre = item.genre;
+      let genre = item.genre;
       return self.genres.some( function (item) {
         return (item.name === genre && item.selected === true);
       });
     });
+  }
+
+  static filterChanged(array) {
+    let result = array.reduce( function(prev, next) {
+      prev[next.selected] = (prev[next.selected] + 1) || 1;
+      return prev;
+    },{});
+
+    return ('true' in result && 'false' in result);
   }
 }

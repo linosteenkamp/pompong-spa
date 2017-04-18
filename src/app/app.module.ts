@@ -10,8 +10,9 @@ import { FlexLayoutModule }         from '@angular/flex-layout';
 import { BrowserAnimationsModule }  from "@angular/platform-browser/animations";
 import { InViewportModule }         from 'ng-in-viewport';
 
-import { AppRoutingModule }         from "./app-routing.module";
 import { AppComponent }             from "./app.component";
+import { AppRoutingModule }         from "./app-routing.module";
+import { AuthModule }               from "./app-auth.module";
 import { ContentComponent }         from './component/content/content.component';
 import { LoginComponent }           from './component/login/login.component';
 
@@ -20,6 +21,7 @@ import { AuthService }              from "./service/auth.service";
 import { AuthGuard }                from "./service/auth.guard";
 
 import 'hammerjs';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import 'hammerjs';
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    InViewportModule.forRoot()
+    InViewportModule.forRoot(),
+    AuthModule
   ],
   providers: [
     ShowsService,
