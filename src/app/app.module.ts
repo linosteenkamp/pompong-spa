@@ -3,7 +3,7 @@ import { NgModule }                 from '@angular/core';
 import { FormsModule }              from '@angular/forms';
 import { HttpModule }               from '@angular/http';
 import {
-  MdToolbarModule, MdMenuModule, MdSidenavModule,
+  MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule,
   MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule
 }                                   from '@angular/material';
 import { FlexLayoutModule }         from '@angular/flex-layout';
@@ -41,6 +41,7 @@ import 'hammerjs';
     MdCheckboxModule,
     MdCardModule,
     MdInputModule,
+    MdTabsModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,

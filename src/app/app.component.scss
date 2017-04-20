@@ -1,5 +1,4 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@import "../styles.scss";
 
 .app-toolbar-filler {
   flex: 1 1 auto;
@@ -7,11 +6,6 @@
 
 .app-toolbar-button {
   font-size: 20px;
-}
-
-.mat-toolbar {
-  background: map_get($mat-blue, 500);
-  color: map_get($mat-amber, 500);
 }
 
 .h {

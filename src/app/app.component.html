@@ -1,12 +1,12 @@
-<div class="app-header flex-container" fxLayout="row" fxLayoutAlign="end">
-  <md-toolbar>
-    <a md-button routerLink="/content" class="app-toolbar-button">{{ title }}</a>
+<div class="app-header" fxLayout="row" fxLayoutAlign="end">
+  <md-toolbar color="primary">
+    <a md-button routerLink="/content" color="accent" class="app-toolbar-button">{{ title }}</a>
     <span class="app-toolbar-filler"></span>
-    <button md-icon-button *ngIf="loggedIn()" (click)="downloadRsyncFile()">
-      <i class="material-icons amber500 md-36">get_app</i>
+    <button md-icon-button color="accent" *ngIf="loggedIn()" (click)="downloadRsyncFile()">
+      <i class="material-icons">get_app</i>
     </button>
-    <button md-icon-button [mdMenuTriggerFor]="menu">
-      <i class="material-icons amber500 md-36">face</i>
+    <button md-icon-button color="accent" [mdMenuTriggerFor]="menu">
+      <i class="material-icons">face</i>
     </button>
     <md-menu #menu="mdMenu" [overlapTrigger]="false">
       <button md-menu-item *ngIf="!loggedIn()" routerLink="/login">

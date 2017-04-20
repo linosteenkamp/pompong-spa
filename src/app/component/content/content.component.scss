@@ -1,5 +1,4 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@import "../../../styles.scss";
 
 @mixin app-tag {
   height:12px;
@@ -21,29 +20,21 @@
 
 .app-tag-primary{
   @include app-tag;
-  background-color: map_get($mat-blue, 100);
+  background-color: mat-color($mat-blue, 100);
 }
 
 .app-tag-accent{
   @include app-tag;
-  background-color: map_get($mat-amber, 100);
+  background-color: mat-color($mat-amber, 100);
 }
 
 .app-tag-warn {
   @include app-tag;
-  background-color: map_get($mat-red, 100);
+  background-color: mat-color($mat-red, 100);;
 }
 
 .app-selected-button {
-  border-bottom: map_get($mat-amber, 200) inset;
-}
-
-.mat-card {
-  margin: 5px;
-}
-
-.mat-card-content {
-  margin-bottom: 41px;
+  border-bottom: $accent;
 }
 
 .app-card-content {
@@ -57,20 +48,11 @@
   min-height: 365px;
 }
 
-.mat-card-footer {
-  background-color: map_get($mat-blue, 50);
-  height: 65px;
-}
-
-.mat-checkbox {
-  margin-left: 20px;
-}
-
 .app-fab {
   @include vertical-align();
   position: absolute;
   left: -28px;
-  background-color: map_get($mat-amber, 200);
+  text-decoration-color: white;
 }
 
 .app-container {
@@ -82,18 +64,19 @@
   right:0px;
 }
 
-.app-sidenav {
- md-checkbox .md-icon {
-    background: green;
-}
-md-checkbox.md-default-theme.md-checked .md-icon {
-    background: green;
-} padding: 20px;
+.mat-card {
+  margin: 5px;
 }
 
-.md-checkbox .md-icon {
-  background: green;
+.mat-card-content {
+  margin-bottom: 41px;
 }
-.md-checkbox.md-default-theme.md-checked .md-icon {
-  background: green;
+
+.mat-card-footer {
+  background-color: mat-color($mat-blue, 50);
+  height: 65px;
+}
+
+.mat-checkbox {
+  margin-left: 20px;
 }
