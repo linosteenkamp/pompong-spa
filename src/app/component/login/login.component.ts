@@ -5,6 +5,7 @@ import { MdDialog }                 from '@angular/material';
 import { AuthService }              from '../../service/auth.service';
 import { AppUser }                  from '../../interfaces/app-user';
 import { MessageComponent }         from "../../dialog/message/message.component";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +16,15 @@ export class LoginComponent implements OnInit {
   user: AppUser;
   loginError = false;
   tabIndex = 0;
+  loginForm : FormGroup;
+  registerForm : FormGroup;
 
-  constructor(private auth: AuthService, private router: Router, public dialog: MdDialog) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    public dialog: MdDialog,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.user = {
@@ -24,7 +32,37 @@ export class LoginComponent implements OnInit {
       email: '',
       password: '',
       token: ''
-    }
+    };
+    this.buildForm();
+  }
+
+  buildForm(): void {
+    this.loginForm = this.fb.group({
+      email: [this.user.password, [
+        Validators.required,
+      ]],
+      password: [this.user.password, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]]
+    });
+
+    this.registerForm = this.fb.group({
+      name: [this.user.name, [
+        Validators.required,
+        Validators.minLength(2)
+      ]],
+      email: [this.user.password, [
+        Validators.required,
+      ]],
+      password: [this.user.password, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]]
+
+    })
   }
 
   onLogin() {

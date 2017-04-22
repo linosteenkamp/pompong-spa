@@ -34,7 +34,7 @@
 }
 
 .app-selected-button {
-  border-bottom: $accent;
+  border-bottom: $accent solid;
 }
 
 .app-card-content {
@@ -52,7 +52,7 @@
   @include vertical-align();
   position: absolute;
   left: -28px;
-  text-decoration-color: white;
+  text: white;
 }
 
 .app-container {

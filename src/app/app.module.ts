@@ -1,6 +1,6 @@
 // Angular
 import { NgModule }                 from '@angular/core';
-import { FormsModule }              from '@angular/forms';
+import {FormsModule, ReactiveFormsModule}              from '@angular/forms';
 import { HttpModule }               from '@angular/http';
 import { BrowserModule }            from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from "@angular/platform-browser/animations";
@@ -28,16 +28,16 @@ import { AuthModule }               from "./modules/app-auth.module";
 // Components
 import { ContentComponent }         from './component/content/content.component';
 import { LoginComponent }           from './component/login/login.component';
+import { ResetPasswordComponent }   from './component/reset-password/reset-password.component';
+
+// Dialogs
+import { MessageComponent }         from './dialog/message/message.component';
 
 // Services
 import { ShowsService }             from "./service/shows.service";
 import { AuthService }              from "./service/auth.service";
 import { AuthGuard }                from "./service/auth.guard";
-
-// Dialogs
-import { MessageComponent }         from './dialog/message/message.component';
-import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
-
+import { GeneralGuard }             from "./service/general.guard";
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     MdToolbarModule,
     MdMenuModule,
@@ -73,7 +74,8 @@ import { ResetPasswordComponent } from './component/reset-password/reset-passwor
   providers: [
     ShowsService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    GeneralGuard
   ],
   bootstrap: [AppComponent]
 })

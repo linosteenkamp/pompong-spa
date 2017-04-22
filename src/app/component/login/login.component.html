@@ -1,17 +1,31 @@
-<div class="flex-container app-content" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap="wrap">
+<div
+  class="flex-container
+  app-content"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  fxLayoutWrap="wrap"
+>
   <div fxFlex="400px">
     <md-card>
       <md-card-content>
-        <md-tab-group colour="accent" [(selectedIndex)]="tabIndex">
+        <h3> Hi there stranger! </h3>
+        <md-tab-group
+          colour="accent"
+          [(selectedIndex)]="tabIndex"
+        >
           <md-tab label="Login">
-            <form #f="ngForm">
+            <form [formGroup]="loginForm">
               <div class="app-card-content">
                 <p>
-                  <md-input-container class="full-width" dividerColor="accent" floatPlaceholder="true">
+                  <md-input-container
+                    class="full-width"
+                    dividerColor="accent"
+                    floatPlaceholder="true"
+                  >
                     <input
                       mdInput
                       type="email"
-                      name="email"
+                      formControlName="email"
                       placeholder="Email Address"
                       [(ngModel)]="user.email"
                       [required]="true"
@@ -19,11 +33,14 @@
                   </md-input-container>
                 </p>
                 <p>
-                  <md-input-container class="full-width" dividerColor="accent">
+                  <md-input-container
+                    class="full-width"
+                    dividerColor="accent"
+                  >
                     <input
                       mdInput
                       type="password"
-                      name="password"
+                      formControlName="password"
                       placeholder="Password"
                       [(ngModel)]="user.password"
                       [required]="true"
@@ -31,23 +48,43 @@
                   </md-input-container>
                 </p>
               </div>
-              <div fxLayout="row" fxLayoutAlign="end">
+              <div
+                fxLayout="row"
+                fxLayoutAlign="end"
+              >
                 <div>
-                  <button *ngIf="loginError" md-button color="warn" (click)="onReset()">Reset Password</button>
-                  <button md-raised-button color="accent" (click)="onLogin(f.value)">Login</button>
+                  <button
+                    *ngIf="loginError"
+                    md-button color="warn"
+                    (click)="onReset()"
+                  >
+                    Reset Password
+                  </button>
+                  <button
+                    md-raised-button
+                    color="accent"
+                    [disabled]="!loginForm.valid"
+                    (click)="onLogin(loginForm.value)"
+                  >
+                    Login
+                  </button>
                 </div>
               </div>
             </form>
           </md-tab>
           <md-tab label="Sign-up">
-            <form #f="ngForm" (ngSubmit)="onRegister(f.value)">
+            <form [formGroup]="registerForm">
               <div class="app-card-content">
                 <p>
-                  <md-input-container class="full-width" dividerColor="accent" floatPlaceholder="true">
+                  <md-input-container
+                    class="full-width"
+                    dividerColor="accent"
+                    floatPlaceholder="true"
+                  >
                     <input
                       mdInput
                       type="text"
-                      name="name"
+                      formControlName="name"
                       placeholder="Name"
                       [(ngModel)]="user.name"
                       [required]="true"
@@ -55,11 +92,15 @@
                   </md-input-container>
                 </p>
                 <p>
-                  <md-input-container class="full-width" dividerColor="accent" floatPlaceholder="true">
+                  <md-input-container
+                    class="full-width"
+                    dividerColor="accent"
+                    floatPlaceholder="true"
+                  >
                     <input
                       mdInput
                       type="email"
-                      name="email"
+                      formControlName="email"
                       placeholder="Email Address"
                       [(ngModel)]="user.email"
                       [required]="true"
@@ -67,11 +108,14 @@
                   </md-input-container>
                 </p>
                 <p>
-                  <md-input-container class="full-width" dividerColor="accent">
+                  <md-input-container
+                    class="full-width"
+                    dividerColor="accent"
+                  >
                     <input
                       mdInput
                       type="password"
-                      name="password"
+                      formControlName="password"
                       placeholder="Password"
                       [(ngModel)]="user.password"
                       [required]="true"
@@ -79,11 +123,21 @@
                   </md-input-container>
                 </p>
               </div>
-              <div fxLayout="row" fxLayoutAlign="end">
+              <div
+                fxLayout="row"
+                fxLayoutAlign="end"
+              >
                 <p class="app-error-msg"> {{errorMsg}} </p>
                 <span class="app-toolbar-filler"></span>
                 <div>
-                  <button type="submit" md-raised-button color="accent">Sign-up</button>
+                  <button
+                    md-raised-button
+                    color="accent"
+                    [disabled]="!registerForm.valid"
+                    (click)="onRegister(registerForm.value)"
+                  >
+                    Sign-up
+                  </button>
                 </div>
               </div>
             </form>

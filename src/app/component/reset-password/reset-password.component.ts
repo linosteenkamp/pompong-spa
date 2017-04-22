@@ -1,7 +1,9 @@
-import { Component, OnInit }              from '@angular/core';
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { AppUser }                        from "../../interfaces/app-user";
-import { AuthService }                    from "../../service/auth.service";
+import { Component, OnInit }                from '@angular/core';
+import { ActivatedRoute, Params, Router }   from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
+import { AppUser }                          from "../../interfaces/app-user";
+import { AuthService }                      from "../../service/auth.service";
 
 @Component({
   selector: 'app-reset-password',
@@ -10,8 +12,14 @@ import { AuthService }                    from "../../service/auth.service";
 })
 export class ResetPasswordComponent implements OnInit {
   user: AppUser;
+  appForm : FormGroup;
 
-  constructor(private auth: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.user = {
@@ -23,6 +31,18 @@ export class ResetPasswordComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.user.token = params['token'];
+    });
+
+    this.buildForm();
+  }
+
+  buildForm(): void {
+    this.appForm = this.fb.group({
+      password: [this.user.password, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]]
     });
   }
 
