@@ -3,10 +3,10 @@ import { Injectable }               from '@angular/core';
 import { AuthHttp }                 from "angular2-jwt";
 import 'rxjs/add/operator/toPromise';
 
-import { Show }                     from "../classes/show";
-import { User }                     from "../classes/user";
-import { Season }                   from "../classes/season";
-import { Genre }                    from "../classes/genre";
+import { Show }                     from "../interfaces/show";
+import { User }                     from "../interfaces/user";
+import { Season }                   from "../interfaces/season";
+import { Genre }                    from "../interfaces/genre";
 
 @Injectable()
 export class ShowsService {
@@ -22,7 +22,7 @@ export class ShowsService {
       .catch(this.handleError);
   }
 
-  getGerres() {
+  getGenres() {
     return this.authHttp
       .get(this.pompongUrl + 'genres')
       .toPromise()

@@ -8,16 +8,16 @@ import { ShowsService }                         from "../../service/shows.servic
 })
 export class ContentComponent implements OnInit {
 
-  private shows;
-  private filteredShows;
+  public shows;
+  public filteredShows;
 
-  private genres;
-  private genresSelected = true;
-  private genresIndeterminate = false;
+  public genres;
+  public genresSelected = true;
+  public genresIndeterminate = false;
 
-  private statuses;
-  private statusSelected = true;
-  private statusIndeterminate = false;
+  public statuses;
+  public statusSelected = true;
+  public statusIndeterminate = false;
 
   constructor(private showsService: ShowsService, private ref: ChangeDetectorRef) {
     this.statuses =  [
@@ -39,7 +39,7 @@ export class ContentComponent implements OnInit {
   }
 
   getGenres(): void {
-    this.showsService.getGerres().then(genres => {
+    this.showsService.getGenres().then(genres => {
       this.genres = genres;
     })
   }

@@ -1,13 +1,10 @@
-import { Component, OnInit }  from '@angular/core';
-import { Router }             from "@angular/router";
-import { tokenNotExpired }    from "angular2-jwt";
+import {Component, OnInit }         from '@angular/core';
+import { Router }                   from '@angular/router';
+import { MdDialog }                 from '@angular/material';
 
-import { AuthService }        from "../../service/auth.service";
-
-interface Credentials {
-  email: string,
-  password: string
-}
+import { AuthService }              from '../../service/auth.service';
+import { AppUser }                  from '../../interfaces/app-user';
+import { MessageComponent }         from "../../dialog/message/message.component";
 
 @Component({
   selector: 'app-login',
@@ -15,35 +12,68 @@ interface Credentials {
   styleUrls: ['login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  credentials: Credentials;
-  errorMsg = '';
+  user: AppUser;
+  loginError = false;
+  tabIndex = 0;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, public dialog: MdDialog) {}
 
   ngOnInit() {
-    this.credentials = {
+    this.user = {
+      name: '',
       email: '',
-      password: ''
+      password: '',
+      token: ''
     }
   }
 
   onLogin() {
-    this.auth.login(this.credentials)
+    this.auth.login(this.user)
       .subscribe(
         data => localStorage.setItem('token', data.token),
         error => {
           console.log(error);
           if (error.status === 401) {
-            this.errorMsg = 'Login error, please verify email address and password';
+            this.loginError = true;
+            this.dialog.open(MessageComponent, {data: {
+              title: 'Login Error',
+              message: 'Login error, please verify email address and password'
+            }});
           } else {
-            this.errorMsg = error.statusMessage;
+            console.log(error);
           }
         },
         () => this.router.navigateByUrl('/content')
       );
   }
 
-  loggedIn() {
-    return tokenNotExpired();
+  onRegister() {
+    this.auth.register(this.user)
+      .subscribe(
+        data => null,
+        error => console.log(error),
+        () => {
+          this.dialog.open(MessageComponent, {data: {
+            title: 'Registration',
+            message: 'Your request has been submitted to the system administrator.'
+          }});
+
+          this.tabIndex = 0
+        }
+      );
+  }
+
+  onReset() {
+    this.auth.resetRequest(this.user)
+      .subscribe(
+        data => null,
+        error => console.log(error),
+        () => {
+          this.dialog.open(MessageComponent, {data: {
+            title: 'Password Reset',
+            message: 'A email has been sent to the registered email address to reset the password.'
+          }});
+        }
+      )
   }
 }

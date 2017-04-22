@@ -4,12 +4,32 @@ import { Http }       from "@angular/http";
 @Injectable()
 export class AuthService {
 
+  private url = 'https://pompong.steenkamps.org/api/';
   constructor(private http: Http) { }
 
-  login(credentials) {
+  login(user) {
     return this.http
-      .post('https://pompong.steenkamps.org/api/login', credentials)
+      .post(this.url + 'login', user)
       .map(res => res.json());
   }
+
+  register(user) {
+    return this.http
+      .post(this.url + 'users', user)
+      .map(res => res.json());
+  }
+
+  resetRequest(user) {
+    return this.http
+      .post(this.url + 'resetRequest', user)
+      .map(res => res.json());
+  }
+
+  resetPassword(user) {
+    return this.http
+      .post(this.url + 'resetPassword', user)
+      .map(res => res.json());
+  }
+
 
 }

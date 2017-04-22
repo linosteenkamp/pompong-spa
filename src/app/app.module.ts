@@ -1,33 +1,54 @@
-import { BrowserModule }            from '@angular/platform-browser';
+// Angular
 import { NgModule }                 from '@angular/core';
 import { FormsModule }              from '@angular/forms';
 import { HttpModule }               from '@angular/http';
-import {
-  MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule,
-  MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule
-}                                   from '@angular/material';
-import { FlexLayoutModule }         from '@angular/flex-layout';
+import { BrowserModule }            from '@angular/platform-browser';
 import { BrowserAnimationsModule }  from "@angular/platform-browser/animations";
+
+// Angular Flex Layout
+import { FlexLayoutModule }         from '@angular/flex-layout';
+
+// Angular Material
+import 'hammerjs';
+import {
+MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule, MdDialogModule,
+MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule
+}                                   from '@angular/material';
+
+// External components
 import { InViewportModule }         from 'ng-in-viewport';
 
+// App
 import { AppComponent }             from "./app.component";
-import { AppRoutingModule }         from "./app-routing.module";
-import { AuthModule }               from "./app-auth.module";
+
+// Modules
+import { AppRoutingModule }         from "./modules/app-routing.module";
+import { AuthModule }               from "./modules/app-auth.module";
+
+// Components
 import { ContentComponent }         from './component/content/content.component';
 import { LoginComponent }           from './component/login/login.component';
 
+// Services
 import { ShowsService }             from "./service/shows.service";
 import { AuthService }              from "./service/auth.service";
 import { AuthGuard }                from "./service/auth.guard";
 
-import 'hammerjs';
+// Dialogs
+import { MessageComponent }         from './dialog/message/message.component';
+import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ContentComponent,
-    LoginComponent
+    LoginComponent,
+    MessageComponent,
+    ResetPasswordComponent
+  ],
+  entryComponents: [
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +63,7 @@ import 'hammerjs';
     MdCardModule,
     MdInputModule,
     MdTabsModule,
+    MdDialogModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
