@@ -52,7 +52,16 @@
   @include vertical-align();
   position: absolute;
   left: -28px;
-  text: white;
+}
+
+.app-fab-icon {
+  margin-left: 20px;
+  color: $warn;
+}
+
+.app-sidenav-heading {
+  margin-left: 20px;
+  margin-bottom: 0px;
 }
 
 .app-container {
@@ -60,8 +69,16 @@
   position:absolute;
   top:60px;
   bottom:1px;
-  left:0px;
-  right:0px;
+  left:0;
+  right:0;
+}
+
+.app-sidenav {
+  width: 250px;
+}
+
+.app-slide-margin {
+  margin-left: 15px;
 }
 
 .mat-card {

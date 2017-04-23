@@ -22,4 +22,6 @@ export interface Show {
   display_overview: boolean;
   genres: Array<Genre>;
   seasons: Array<Season>;
+  file_size: number;
+  selected_file_size: number;
 }

@@ -1,13 +1,22 @@
 
 <md-sidenav-container class="app-container">
   <button md-fab color="accent" class="app-fab" (click)="sidenav.toggle()">
-    &nbsp;&nbsp;&nbsp;<md-icon>keyboard_arrow_right</md-icon>
+    <md-icon class="app-fab-icon">keyboard_arrow_right</md-icon>
   </button>
 
   <md-sidenav #sidenav class="app-sidenav">
-    <h4 align="center">Filters</h4>
+    <h3 align="center">Filters</h3>
 
-    <h5>&nbsp;&nbsp;&nbsp;Show Status</h5>
+    <md-slide-toggle
+      class="app-slide-margin"
+      [color]="accent"
+      [checked]="myShows"
+      (change)="mySowsClicked()"
+    >
+      My shows
+    </md-slide-toggle>
+
+    <h4 class="app-sidenav-heading">Show Status</h4>
     <hr>
     <md-checkbox
       [checked]="statusSelected"
@@ -29,7 +38,7 @@
       </md-checkbox>
     </div>
 
-    <h5>&nbsp;&nbsp;&nbsp;Genres</h5>
+    <h4 class="app-sidenav-heading">Genres</h4>
     <hr>
     <md-checkbox
       [checked]="genresSelected"
@@ -114,6 +123,9 @@
               <div [ngClass]="{'app-tag-accent':show.status==='Continuing','app-tag-warn':show.status==='Ended'}">
                 {{ show.status }}
               </div>
+            </div>
+            <div fxFlex="90px" fxFlexAlign="baseline">
+              <div class="app-tag-accent">{{ show.selected_file_size | fileSize }}</div>
             </div>
           </div>
           <div class="flex-container" fxLayout="row" fxLayoutAlign="start">

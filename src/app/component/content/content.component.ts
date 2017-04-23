@@ -1,5 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ShowsService }                         from "../../service/shows.service";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {FileSizeInfo, ShowsService}                         from "../../service/shows.service";
+
+import {Season} from "../../interfaces/season";
 
 @Component({
   selector: 'app-content',
@@ -10,6 +12,7 @@ export class ContentComponent implements OnInit {
 
   public shows;
   public filteredShows;
+  public myShows = false;
 
   public genres;
   public genresSelected = true;
@@ -51,6 +54,12 @@ export class ContentComponent implements OnInit {
 
   seasonClicked(show, season): void {
     season.selected = !season.selected;
+    if (season.selected) {
+      show.selected_file_size = +show.selected_file_size + +season.file_size;
+    } else {
+      show.selected_file_size = +show.selected_file_size - +season.file_size;
+    }
+
     this.showsService.updateShow(show).then();
     this.ref.detectChanges();
   }
@@ -90,11 +99,20 @@ export class ContentComponent implements OnInit {
     this.filterShows();
   }
 
+  mySowsClicked(): void {
+    this.myShows = !this.myShows;
+    this.filterShows();
+  }
+
   private filterShows (): void {
     let self = this;
 
     this.filteredShows = this.shows.filter(function (show) {
-      return (self.statusFilter(show) && self.genreFilter(show.genres))
+      return (
+        self.statusFilter(show)
+        && self.myShowsFilter(show.seasons)
+        && self.genreFilter(show.genres)
+      )
     });
 
     console.info(this.filteredShows.length)
@@ -116,6 +134,13 @@ export class ContentComponent implements OnInit {
       return self.genres.some( function (item) {
         return (item.name === genre && item.selected === true);
       });
+    });
+  }
+
+  private myShowsFilter(season) {
+    let self = this;
+    return season.some(function (item: Season) {
+      return !(!item.selected && self.myShows);
     });
   }
 

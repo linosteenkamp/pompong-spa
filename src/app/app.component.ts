@@ -10,16 +10,16 @@ import { ShowsService }     from "./service/shows.service";
 export class AppComponent {
   title = 'Pompong';
 
-  constructor(private showsService: ShowsService) {}
+  constructor(public showsService: ShowsService) {}
 
   downloadRsyncFile() {
-    this.showsService.getRsyncFile().then(data => this.downloadFile(data))
+    this.showsService.getRsyncFile().then(data => AppComponent.downloadFile(data))
   }
 
-  downloadFile(data){
-    var url = "https://pompong.steenkamps.org/" + data["file_name"];
+  static downloadFile(data){
+    let url = "https://pompong.steenkamps.org/" + data["file_name"];
 
-    var link = document.createElement("a");
+    let link = document.createElement("a");
     link.download = "a";
     link.href = url;
     link.click();

@@ -11,8 +11,8 @@ import { FlexLayoutModule }         from '@angular/flex-layout';
 // Angular Material
 import 'hammerjs';
 import {
-MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule, MdDialogModule,
-MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule
+  MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule, MdDialogModule,
+  MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule, MdSlideToggleModule
 }                                   from '@angular/material';
 
 // External components
@@ -38,6 +38,7 @@ import { ShowsService }             from "./service/shows.service";
 import { AuthService }              from "./service/auth.service";
 import { AuthGuard }                from "./service/auth.guard";
 import { GeneralGuard }             from "./service/general.guard";
+import { FileSizePipe } from './pipe/file-size.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { GeneralGuard }             from "./service/general.guard";
     ContentComponent,
     LoginComponent,
     MessageComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    FileSizePipe
   ],
   entryComponents: [
     MessageComponent
@@ -65,6 +67,7 @@ import { GeneralGuard }             from "./service/general.guard";
     MdInputModule,
     MdTabsModule,
     MdDialogModule,
+    MdSlideToggleModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
