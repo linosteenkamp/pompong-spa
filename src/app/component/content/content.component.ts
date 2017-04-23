@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FileSizeInfo, ShowsService}                         from "../../service/shows.service";
+import { ShowsService }                       from "../../service/shows.service";
 
 import {Season} from "../../interfaces/season";
 

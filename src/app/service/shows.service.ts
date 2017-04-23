@@ -6,19 +6,9 @@ import 'rxjs/add/operator/toPromise';
 import { Show }                     from "../interfaces/show";
 import { Season }                   from "../interfaces/season";
 
-export interface FileSizeInfo {
-  all: number;
-  selected: number;
-}
-
 @Injectable()
 export class ShowsService {
   private pompongUrl = 'https://pompong.steenkamps.org/api/';  // URL to web api
-
-  fileSizeInfo: FileSizeInfo = {
-    all: 0,
-    selected: 0
-  };
 
   constructor(public authHttp: AuthHttp) {}
 
