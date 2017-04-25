@@ -5,12 +5,29 @@ import 'rxjs/add/operator/toPromise';
 
 import { Show }                     from "../interfaces/show";
 import { Season }                   from "../interfaces/season";
+import { Subject } from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
+
+export interface FileSizeInfo {
+  totalSize: number;
+  selectedSize: number;
+}
 
 @Injectable()
 export class ShowsService {
   private pompongUrl = 'https://pompong.steenkamps.org/api/';  // URL to web api
 
+  private subject = new Subject<FileSizeInfo>();
+
   constructor(public authHttp: AuthHttp) {}
+
+  sendMessage(message: FileSizeInfo) {
+    this.subject.next(message);
+  }
+
+  getMessage(): Observable<FileSizeInfo> {
+    return this.subject.asObservable();
+  }
 
   getShows() {
     return this.authHttp

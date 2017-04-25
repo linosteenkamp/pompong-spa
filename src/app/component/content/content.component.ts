@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import { ShowsService }                       from "../../service/shows.service";
+import {FileSizeInfo, ShowsService}                       from "../../service/shows.service";
 
 import {Season} from "../../interfaces/season";
 
@@ -34,6 +34,11 @@ export class ContentComponent implements OnInit {
     this.getGenres();
   }
 
+  // sendMessage(): void {
+  //   // send message to subscribers via observable subject
+  //   this.showsService.sendMessage(10);
+  // }
+
   getShows(): void {
     this.showsService.getShows().then(shows => {
       this.shows = shows;
@@ -59,6 +64,13 @@ export class ContentComponent implements OnInit {
     } else {
       show.selected_file_size = +show.selected_file_size - +season.file_size;
     }
+
+    let x = {
+      totalSize: show.totalSize,
+      selectedSize: show.selected_file_size
+    };
+
+    this.showsService.sendMessage(x);
 
     this.showsService.updateShow(show).then();
     this.ref.detectChanges();
