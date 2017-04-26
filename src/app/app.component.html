@@ -2,8 +2,8 @@
   <md-toolbar color="primary">
     <a md-button routerLink="/content" color="accent" class="app-toolbar-button">{{ title }}</a>
     <span class="app-toolbar-filler"></span>
-    <p class="app-size-p">{{showsService.fileSizeInfo.selectedSize | fileSize}}</p>
-    <button md-icon-button color="accent" *ngIf="loggedIn()" (click)="downloadRsyncFile()">
+    <button md-button color="accent" *ngIf="loggedIn()" (click)="downloadRsyncFile()">
+      {{showsService.fileSizeInfo.selectedSize | fileSize}}
       <i class="material-icons">get_app</i>
     </button>
     <button md-icon-button color="accent" [mdMenuTriggerFor]="menu">

@@ -35,10 +35,11 @@ import { MessageComponent }         from './dialog/message/message.component';
 
 // Services
 import { ShowsService }             from "./service/shows.service";
+import { ShowsFilterService }       from "./service/shows-filter.service";
 import { AuthService }              from "./service/auth.service";
 import { AuthGuard }                from "./service/auth.guard";
 import { GeneralGuard }             from "./service/general.guard";
-import { FileSizePipe } from './pipe/file-size.pipe';
+import { FileSizePipe }             from './pipe/file-size.pipe';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { FileSizePipe } from './pipe/file-size.pipe';
   ],
   providers: [
     ShowsService,
+    ShowsFilterService,
     AuthService,
     AuthGuard,
     GeneralGuard

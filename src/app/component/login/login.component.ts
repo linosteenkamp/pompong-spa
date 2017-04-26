@@ -1,11 +1,11 @@
-import {Component, OnInit }         from '@angular/core';
-import { Router }                   from '@angular/router';
-import { MdDialog }                 from '@angular/material';
+import {Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MdDialog } from '@angular/material';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService }              from '../../service/auth.service';
-import { AppUser }                  from '../../interfaces/app-user';
-import { MessageComponent }         from "../../dialog/message/message.component";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { AuthService } from '../../service/auth.service';
+import { AppUser } from '../../interfaces/app-user';
+import { MessageComponent } from '../../dialog/message/message.component';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   user: AppUser;
   loginError = false;
   tabIndex = 0;
-  loginForm : FormGroup;
-  registerForm : FormGroup;
+  loginForm: FormGroup;
+  registerForm: FormGroup;
 
   constructor(
     private auth: AuthService,
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
         Validators.maxLength(24)
       ]]
 
-    })
+    });
   }
 
   onLogin() {
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
             message: 'Your request has been submitted to the system administrator.'
           }});
 
-          this.tabIndex = 0
+          this.tabIndex = 0;
         }
       );
   }
@@ -112,6 +112,6 @@ export class LoginComponent implements OnInit {
             message: 'A email has been sent to the registered email address to reset the password.'
           }});
         }
-      )
+      );
   }
 }

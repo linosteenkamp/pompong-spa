@@ -7,5 +7,5 @@ export interface User {
   pivot: {
     season_id: number;
     user_id: number;
-  }
+  };
 }

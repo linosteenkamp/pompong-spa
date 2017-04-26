@@ -1,9 +1,9 @@
-import { Component, OnInit }                from '@angular/core';
-import { ActivatedRoute, Params, Router }   from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AppUser }                          from "../../interfaces/app-user";
-import { AuthService }                      from "../../service/auth.service";
+import { AppUser } from '../../interfaces/app-user';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -12,7 +12,7 @@ import { AuthService }                      from "../../service/auth.service";
 })
 export class ResetPasswordComponent implements OnInit {
   user: AppUser;
-  appForm : FormGroup;
+  appForm: FormGroup;
 
   constructor(
     private auth: AuthService,
@@ -52,7 +52,7 @@ export class ResetPasswordComponent implements OnInit {
         data => null,
         error => console.log(error),
         () => this.router.navigateByUrl('/login')
-      )
+      );
   }
 
 }

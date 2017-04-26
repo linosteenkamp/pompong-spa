@@ -1,8 +1,5 @@
-// import {Genre} from "./genre";
-// import {Season} from "./season";
-
-import { Genre }  from "./genre";
-import { Season } from "./season";
+import { Genre } from './genre';
+import { Season } from './season';
 
 export interface Show {
   id: number;
