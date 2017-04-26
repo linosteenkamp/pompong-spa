@@ -1,12 +1,12 @@
 import { Response }                 from "@angular/http";
 import { Injectable }               from '@angular/core';
 import { AuthHttp }                 from "angular2-jwt";
+
 import 'rxjs/add/operator/toPromise';
+import { Subject }                  from "rxjs/Subject";
 
 import { Show }                     from "../interfaces/show";
 import { Season }                   from "../interfaces/season";
-import { Subject } from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
 
 export interface FileSizeInfo {
   totalSize: number;
@@ -16,16 +16,16 @@ export interface FileSizeInfo {
 @Injectable()
 export class ShowsService {
   private pompongUrl = 'https://pompong.steenkamps.org/api/';  // URL to web api
-
-  private subject = new Subject<FileSizeInfo>();
+  private subject = new Subject();
+  public fileSizeInfo: FileSizeInfo = {totalSize: 0, selectedSize: 0};
 
   constructor(public authHttp: AuthHttp) {}
 
-  sendMessage(message: FileSizeInfo) {
-    this.subject.next(message);
+  sendMessage() {
+    this.subject.next();
   }
 
-  getMessage(): Observable<FileSizeInfo> {
+  getMessage() {
     return this.subject.asObservable();
   }
 
@@ -33,7 +33,7 @@ export class ShowsService {
     return this.authHttp
       .get(this.pompongUrl + 'shows')
       .toPromise()
-      .then(res => ShowsService.mapShow(res))
+      .then(res => ShowsService.mapShow(res, this.fileSizeInfo))
       .catch(ShowsService.handleError);
   }
 
@@ -66,7 +66,7 @@ export class ShowsService {
       .catch(ShowsService.handleError);
   }
 
-  static mapShow(show: Response) {
+  static mapShow(show: Response, info: FileSizeInfo) {
     let body = show.json();
     return body.map(function (item: Show) {
       let show = item;
@@ -78,8 +78,10 @@ export class ShowsService {
         item.selected = (item.users.length > 0);
         if (item.selected) {
           show.selected_file_size = +show.selected_file_size + +item.file_size;
+          info.selectedSize = +info.selectedSize + +item.file_size;
         }
         show.file_size = +show.file_size + +item.file_size;
+        info.totalSize = +info.totalSize + +item.file_size;
       });
       return item;
     });

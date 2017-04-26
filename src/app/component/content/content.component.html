@@ -11,7 +11,7 @@
       class="app-slide-margin"
       [color]="accent"
       [checked]="myShows"
-      (change)="mySowsClicked()"
+      (change)="myShowsClicked()"
     >
       My shows
     </md-slide-toggle>
@@ -22,7 +22,7 @@
       [checked]="statusSelected"
       [indeterminate]="statusIndeterminate"
       [disableRipple]="true"
-      (change)="statusClicked()"
+      (change)="allStatusClicked()"
       align="start"
     >
       All
@@ -44,7 +44,7 @@
       [checked]="genresSelected"
       [indeterminate]="genresIndeterminate"
       [disableRipple]="true"
-      (change)="genresClicked()"
+      (change)="allGenresClicked()"
       align="start"
     >
       All

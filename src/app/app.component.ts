@@ -12,14 +12,10 @@ import { Subscription }                             from "rxjs/Subscription";
 export class AppComponent implements OnDestroy {
   title = 'Pompong';
 
-  message: any;
   subscription: Subscription;
 
   constructor(public showsService: ShowsService, private ref: ChangeDetectorRef) {
-    this.subscription = this.showsService.getMessage().subscribe(message => {
-      this.message = message;
-      this.ref.detectChanges();
-    });
+    this.subscription = this.showsService.getMessage().subscribe(message => this.ref.detectChanges());
   }
 
   ngOnDestroy() {

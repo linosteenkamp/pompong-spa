@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FileSizeInfo, ShowsService}                       from "../../service/shows.service";
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ShowsService }                         from "../../service/shows.service";
 
 import {Season} from "../../interfaces/season";
 
@@ -34,15 +34,10 @@ export class ContentComponent implements OnInit {
     this.getGenres();
   }
 
-  // sendMessage(): void {
-  //   // send message to subscribers via observable subject
-  //   this.showsService.sendMessage(10);
-  // }
-
   getShows(): void {
     this.showsService.getShows().then(shows => {
       this.shows = shows;
-      this.filterShows();
+      this.filteredShows = ContentComponent.filterShows(this.shows, this.myShows, this.statuses, this.genres);
     });
   }
 
@@ -60,17 +55,14 @@ export class ContentComponent implements OnInit {
   seasonClicked(show, season): void {
     season.selected = !season.selected;
     if (season.selected) {
-      show.selected_file_size = +show.selected_file_size + +season.file_size;
+      show.selected_file_size += +season.file_size;
+      this.showsService.fileSizeInfo.selectedSize += +season.file_size;
     } else {
-      show.selected_file_size = +show.selected_file_size - +season.file_size;
+      show.selected_file_size -= +season.file_size;
+      this.showsService.fileSizeInfo.selectedSize -= +season.file_size;
     }
 
-    let x = {
-      totalSize: show.totalSize,
-      selectedSize: show.selected_file_size
-    };
-
-    this.showsService.sendMessage(x);
+    this.showsService.sendMessage();
 
     this.showsService.updateShow(show).then();
     this.ref.detectChanges();
@@ -81,82 +73,75 @@ export class ContentComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  genresClicked(): void {
+  allGenresClicked(): void {
     this.genresSelected = !this.genresSelected;
     this.genres.forEach(item => item.selected = this.genresSelected);
     this.genresIndeterminate = false;
-    this.filterShows();
+    this.filteredShows = ContentComponent.filterShows(this.shows, this.myShows, this.statuses, this.genres);
   }
 
-  statusClicked(): void {
+  allStatusClicked(): void {
     this.statusSelected = !this.statusSelected;
     this.statuses.forEach(item => item.selected = this.statusSelected);
     this.statusIndeterminate = false;
-    this.filterShows();
+    this.filteredShows = ContentComponent.filterShows(this.shows, this.myShows, this.statuses, this.genres);
   }
 
   filterClicked( status ): void {
     status.selected = !status.selected;
 
-    this.genresIndeterminate = ContentComponent.filterChanged(this.genres);
+    this.genresIndeterminate = this.isIndeterminate(this.genres);
     if (!this.genresIndeterminate) {
       this.genresSelected = this.genres[0].selected;
     }
 
-    this.statusIndeterminate = ContentComponent.filterChanged(this.statuses);
+    this.statusIndeterminate = this.isIndeterminate(this.statuses);
     if (!this.statusIndeterminate) {
       this.statusSelected = this.statuses[0].selected;
     }
 
-    this.filterShows();
+    this.filteredShows = ContentComponent.filterShows(this.shows, this.myShows, this.statuses, this.genres);
   }
 
-  mySowsClicked(): void {
+  myShowsClicked(): void {
     this.myShows = !this.myShows;
-    this.filterShows();
+    this.filteredShows = ContentComponent.filterShows(this.shows, this.myShows, this.statuses, this.genres);
   }
 
-  private filterShows (): void {
-    let self = this;
-
-    this.filteredShows = this.shows.filter(function (show) {
+  static filterShows (shows, myShows, statuses, genres) {
+    return shows.filter(function (show) {
       return (
-        self.statusFilter(show)
-        && self.myShowsFilter(show.seasons)
-        && self.genreFilter(show.genres)
+        ContentComponent.myShowsFilter(show.seasons, myShows)
+        && ContentComponent.statusFilter(show, statuses)
+        && ContentComponent.genreFilter(show.genres, genres)
       )
     });
-
-    console.info(this.filteredShows.length)
   }
 
-  private statusFilter(show) {
+  static statusFilter(show, selection) {
     let showStatus = show.status;
 
-    return this.statuses.some(function (item) {
+    return selection.some(function (item) {
       return (item.name === showStatus && item.selected === true);
     });
   }
 
-  private genreFilter(genres) {
-    let self = this;
-
+  static genreFilter(genres, selection) {
     return genres.some(function (item) {
       let genre = item.genre;
-      return self.genres.some( function (item) {
+      return selection.some( function (item) {
         return (item.name === genre && item.selected === true);
       });
     });
   }
 
-  private myShowsFilter(season) {
-    let self = this;
+  static myShowsFilter(season, myShows) {
     return season.some(function (item: Season) {
-      return !(!item.selected && self.myShows);
+      return myShows? item.selected : true;
     });
   }
 
-  static filterChanged(array) {
+  private isIndeterminate(array) {
     let result = array.reduce( function(prev, next) {
       prev[next.selected] = (prev[next.selected] + 1) || 1;
       return prev;
