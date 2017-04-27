@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Season } from '../interfaces/season';
+import {Injectable} from '@angular/core';
+import {Season} from '../interfaces/season';
 
 @Injectable()
 export class ShowsFilterService {

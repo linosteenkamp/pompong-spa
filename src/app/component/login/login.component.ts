@@ -1,11 +1,11 @@
-import {Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MdDialog } from '@angular/material';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MdDialog} from '@angular/material';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AuthService } from '../../service/auth.service';
-import { AppUser } from '../../interfaces/app-user';
-import { MessageComponent } from '../../dialog/message/message.component';
+import {AuthService} from '../../service/auth.service';
+import {AppUser} from '../../interfaces/app-user';
+import {MessageComponent} from '../../dialog/message/message.component';
 
 @Component({
   selector: 'app-login',

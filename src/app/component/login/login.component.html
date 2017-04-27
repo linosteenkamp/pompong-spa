@@ -54,19 +54,20 @@
               >
                 <div>
                   <button
+                    md-raised-button
+                    color="accent"
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                    (click)="onLogin(loginForm.value)"
+                  >
+                    Login
+                  </button>
+                  <button
                     *ngIf="loginError"
                     md-button color="warn"
                     (click)="onReset()"
                   >
                     Reset Password
-                  </button>
-                  <button
-                    md-raised-button
-                    color="accent"
-                    [disabled]="!loginForm.valid"
-                    (click)="onLogin(loginForm.value)"
-                  >
-                    Login
                   </button>
                 </div>
               </div>

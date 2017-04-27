@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import {tokenNotExpired} from 'angular2-jwt';
+import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
 
-  private url = 'https://pompong.steenkamps.org/api/';
-  constructor(private http: Http) { }
+  private url = environment.api_url;
+  constructor(private http: Http, private router: Router) { }
 
   login(user) {
     return this.http
@@ -31,5 +34,12 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  loggedIn(): boolean {
+    return tokenNotExpired();
+  }
 
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/login');
+  }
 }

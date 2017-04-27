@@ -1,47 +1,67 @@
-import { Response } from '@angular/http';
-import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {Router} from '@angular/router';
 
 import 'rxjs/add/operator/toPromise';
-import { Subject } from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
-import { Show } from '../interfaces/show';
-import { Season } from '../interfaces/season';
+import {AuthHttp} from 'angular2-jwt';
 
-export interface FileSizeInfo {
-  totalSize: number;
-  selectedSize: number;
-}
+import {Show} from '../interfaces/show';
+import {Season} from '../interfaces/season';
+import {environment} from '../../environments/environment';
+import {FileSizeInfoService} from './file-size-info.service';
 
 @Injectable()
 export class ShowsService {
-  private pompongUrl = 'https://pompong.steenkamps.org/api/';  // URL to web api
-  private subject = new Subject();
-  public fileSizeInfo: FileSizeInfo = {totalSize: 0, selectedSize: 0};
+  private url = environment.api_url;
 
-  static mapShow(show: Response, info: FileSizeInfo) {
-    const body = show.json();
-    return body.map(function (item: Show) {
-      const thisShow = item;
-      thisShow.display_card = false;
-      thisShow.display_overview = false;
-      thisShow.file_size = +0;
-      thisShow.selected_file_size = +0;
-      thisShow.seasons.forEach(function (showItem: Season) {
-        showItem.selected = (showItem.users.length > 0);
-        if (showItem.selected) {
-          thisShow.selected_file_size = +thisShow.selected_file_size + +showItem.file_size;
-          info.selectedSize = +info.selectedSize + +showItem.file_size;
-        }
-        thisShow.file_size = +thisShow.file_size + +showItem.file_size;
-        info.totalSize = +info.totalSize + +showItem.file_size;
-      });
-      return item;
-    });
+  static downloadFile(url) {
+    const link = document.createElement('a');
+    link.download = 'a';
+    link.href = url;
+    link.click();
   }
 
-  static extractGenreData(res: Response) {
-    const body = res.json();
+  constructor(
+    public authHttp: AuthHttp,
+    public fileSizeInfo: FileSizeInfoService,
+    private router: Router
+  ) {}
+
+  public getShows() {
+    return this.authHttp
+      .get(this.url + 'shows')
+      .toPromise()
+      .then(res => this.mapShows(res, this.fileSizeInfo))
+      .catch(this.handleError);
+  }
+
+  public getGenres() {
+    return this.authHttp
+      .get(this.url + 'genres')
+      .toPromise()
+      .then(this.mapGenres)
+      .catch(this.handleError);
+  }
+
+  public getRsyncFile() {
+    return this.authHttp
+      .get(this.url + 'rsync')
+      .toPromise()
+      .then((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+  public updateShow(show: Show): Observable<Show> {
+    return this.authHttp
+      .put(this.url + 'shows/' + show.id + '/update', show)
+      .map(() => {})
+      .catch(this.handleError);
+  }
+
+  private mapGenres(response: Response) {
+    const body = response.json();
     const genres = [];
 
     for (let i = 0; i < body.length; i++) {
@@ -54,56 +74,36 @@ export class ShowsService {
     return genres;
   }
 
-  static handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  private mapShows = (response: Response, fileSizeInfo: FileSizeInfoService) => {
+    const shows = response.json();
+    return shows.map(function (show: Show) {
+      show.display_card = false;
+      show.display_overview = false;
+      show.seasons_indeterminate = false;
+      show.file_size = +0;
+      show.selected_file_size = +0;
+      show.seasons.forEach(function (season: Season) {
+        season.selected = (season.users.length > 0);
+        if (season.selected) {
+          show.selected_file_size += +season.file_size;
+          fileSizeInfo.selectedSize +=  +season.file_size;
+        }
+        show.file_size += +season.file_size;
+        fileSizeInfo.totalSize += +season.file_size;
+      });
+      return show;
+    });
   }
 
+  private handleError = (error: any): Promise<any> => {
+    // console.error('An error occurred', error); // for demo purposes only
 
-  constructor(public authHttp: AuthHttp) {}
-
-  sendMessage() {
-    this.subject.next();
-  }
-
-  getMessage() {
-    return this.subject.asObservable();
-  }
-
-  getShows() {
-    return this.authHttp
-      .get(this.pompongUrl + 'shows')
-      .toPromise()
-      .then(res => ShowsService.mapShow(res, this.fileSizeInfo))
-      .catch(ShowsService.handleError);
-  }
-
-  getGenres() {
-    return this.authHttp
-      .get(this.pompongUrl + 'genres')
-      .toPromise()
-      .then(ShowsService.extractGenreData)
-      .catch(ShowsService.handleError);
-  }
-
-  getRsyncFile() {
-    return this.authHttp
-      .get(this.pompongUrl + 'rsync')
-      .toPromise()
-      .then((res: Response) => res.json())
-      .catch(ShowsService.handleError);
-  }
-
-  // updateShow(show): Observable<Show> {
-  //   return this.authHttp.put(this.pompongUrl + 'shows/' + show.id + '/update', { show })
-  //     .map(res => res.json())
-  //     .catch(ShowsService.handleError);
-  // }
-
-  updateShow(show) {
-    return this.authHttp.put(this.pompongUrl + 'shows/' + show.id + '/update', show)
-      .toPromise()
-      .then()
-      .catch(ShowsService.handleError);
+    if (error.message === 'No JWT present or has expired') {
+      this.router.navigateByUrl('/login').then(() => {
+        return Promise.reject(error.message);
+      });
+    } else {
+      return Promise.reject(error.message || error);
+    }
   }
 }

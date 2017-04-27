@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit} from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MD_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-invalid-password',
@@ -15,7 +15,5 @@ export class MessageComponent implements OnInit {
     this.message = data.message;
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

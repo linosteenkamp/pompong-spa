@@ -1,7 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ShowsService } from '../../service/shows.service';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
-import { ShowsFilterService } from '../../service/shows-filter.service';
+import {FileSizeInfoService} from '../../service/file-size-info.service';
+import {ShowsFilterService} from '../../service/shows-filter.service';
+import {ShowsService} from '../../service/shows.service';
+import {Season} from '../../interfaces/season';
+import {Show} from '../../interfaces/show';
 
 @Component({
   selector: 'app-content',
@@ -34,6 +37,7 @@ export class ContentComponent implements OnInit {
   constructor(
     private showsService: ShowsService,
     private showsFilter: ShowsFilterService,
+    private fileSizeInfo: FileSizeInfoService,
     private ref: ChangeDetectorRef
   ) {
     this.statuses =  [
@@ -60,30 +64,48 @@ export class ContentComponent implements OnInit {
     });
   }
 
-  inViewport(event, show): void {
+  inViewport(event, show: Show): void {
     show.display_card = event.value;
     this.ref.detectChanges();
   }
 
-  seasonClicked(show, season): void {
-    season.selected = !season.selected;
-    if (season.selected) {
-      show.selected_file_size += +season.file_size;
-      this.showsService.fileSizeInfo.selectedSize += +season.file_size;
-    } else {
-      show.selected_file_size -= +season.file_size;
-      this.showsService.fileSizeInfo.selectedSize -= +season.file_size;
-    }
-
-    this.showsService.sendMessage();
-
-    this.showsService.updateShow(show).then();
+  tabSelected(tab: string, show: Show): void {
+    show.display_overview = (tab === 'overview');
     this.ref.detectChanges();
   }
 
-  tabSelected(tab, show): void {
-    show.display_overview = (tab === 'overview');
+  seasonClicked(show: Show, season: Season): void {
+    season.selected = !season.selected;
+
+    this.fileSizeInfo.update(season, show);
+    this.showsService.updateShow(show).subscribe();
     this.ref.detectChanges();
+  }
+
+  allSeasonChecked(show: Show) {
+    show.seasons_indeterminate = ContentComponent.isIndeterminate(show.seasons);
+    if (!show.seasons_indeterminate) {
+      return show.seasons[0].selected;
+    }
+  }
+
+  allSeasonClicked(show: Show) {
+    const checked = show.seasons_indeterminate ? true : !show.seasons[0].selected;
+    show.seasons.forEach(season => {
+      if (!season.selected === checked) {
+        season.selected = checked;
+        this.fileSizeInfo.update(season, show);
+      }
+    });
+
+    show.seasons_indeterminate = false;
+    this.showsService.updateShow(show).subscribe();
+    this.ref.detectChanges();
+  }
+
+  myShowsClicked(): void {
+    this.myShows = !this.myShows;
+    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 
   allGenresClicked(): void {
@@ -113,11 +135,6 @@ export class ContentComponent implements OnInit {
       this.statusSelected = this.statuses[0].selected;
     }
 
-    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
-  }
-
-  myShowsClicked(): void {
-    this.myShows = !this.myShows;
     this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 }

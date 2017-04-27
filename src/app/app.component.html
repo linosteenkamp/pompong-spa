@@ -2,7 +2,7 @@
   <md-toolbar color="primary">
     <a md-button routerLink="/content" color="accent" class="app-toolbar-button">{{ title }}</a>
     <span class="app-toolbar-filler"></span>
-    <button md-button color="accent" *ngIf="loggedIn()" (click)="downloadRsyncFile()">
+    <button md-button color="accent" *ngIf="authService.loggedIn()" (click)="downloadRsyncFile()">
       {{showsService.fileSizeInfo.selectedSize | fileSize}}
       <i class="material-icons">get_app</i>
     </button>
@@ -10,11 +10,11 @@
       <i class="material-icons">face</i>
     </button>
     <md-menu #menu="mdMenu" [overlapTrigger]="false">
-      <button md-menu-item *ngIf="!loggedIn()" routerLink="/login">
+      <button md-menu-item *ngIf="!authService.loggedIn()">
         <md-icon>lock_open</md-icon>
         <span>Login</span>
       </button>
-      <button md-menu-item *ngIf="loggedIn()" (click)="logout()" routerLink="/login">
+      <button md-menu-item *ngIf="authService.loggedIn()" (click)="authService.logout()">
         <md-icon>lock</md-icon>
         <span>Logout</span>
       </button>

@@ -1,7 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
-import { ShowsService } from './service/shows.service';
-import { Subscription } from 'rxjs/Subscription';
+import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
+
+import {ShowsService} from './service/shows.service';
+import {AuthService} from './service/auth.service';
+import {environment} from '../environments/environment';
+import {FileSizeInfoService} from './service/file-size-info.service';
 
 @Component({
   selector: 'app-root',
@@ -12,17 +15,15 @@ import { Subscription } from 'rxjs/Subscription';
 export class AppComponent implements OnDestroy {
   title = 'Pompong';
   subscription: Subscription;
+  service_url = environment.service_url;
 
-  static downloadFile(data) {
-    const url = 'https://pompong.steenkamps.org/' + data['file_name'];
-    const link = document.createElement('a');
-    link.download = 'a';
-    link.href = url;
-    link.click();
-  }
-
-  constructor(public showsService: ShowsService, private ref: ChangeDetectorRef) {
-    this.subscription = this.showsService.getMessage().subscribe(message => this.ref.detectChanges());
+  constructor(
+    public fileSizeInfo: FileSizeInfoService,
+    public authService: AuthService,
+    private showsService: ShowsService,
+    private ref: ChangeDetectorRef
+  ) {
+    this.subscription = this.fileSizeInfo.getMessage().subscribe(() => this.ref.detectChanges());
   }
 
   ngOnDestroy() {
@@ -30,13 +31,9 @@ export class AppComponent implements OnDestroy {
   }
 
   downloadRsyncFile() {
-    this.showsService.getRsyncFile().then(data => AppComponent.downloadFile(data));
+    this.showsService.getRsyncFile().then(data => {
+      const url = this.service_url + data['file_name'];
+      ShowsService.downloadFile(url);
+    });
   }
-
-  loggedIn() {
-    return tokenNotExpired();
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-  }}
+}

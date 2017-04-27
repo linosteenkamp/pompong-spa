@@ -1,5 +1,5 @@
-import { Genre } from './genre';
-import { Season } from './season';
+import {Genre} from './genre';
+import {Season} from './season';
 
 export interface Show {
   id: number;
@@ -19,6 +19,7 @@ export interface Show {
   display_overview: boolean;
   genres: Array<Genre>;
   seasons: Array<Season>;
+  seasons_indeterminate: boolean;
   file_size: number;
   selected_file_size: number;
 }

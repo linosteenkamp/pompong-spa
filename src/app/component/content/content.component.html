@@ -1,7 +1,13 @@
-
 <md-sidenav-container class="app-container">
-  <button md-fab color="accent" class="app-fab" (click)="sidenav.toggle()">
-    <md-icon class="app-fab-icon">keyboard_arrow_right</md-icon>
+  <button
+    md-fab
+    color="accent"
+    class="app-fab"
+    (click)="sidenav.toggle()"
+  >
+    <md-icon class="app-fab-icon">
+      keyboard_arrow_right
+    </md-icon>
   </button>
 
   <md-sidenav #sidenav class="app-sidenav">
@@ -16,12 +22,14 @@
       My shows
     </md-slide-toggle>
 
-    <h4 class="app-sidenav-heading">Show Status</h4>
+    <h4 class="app-sidenav-heading">
+      Show Status
+    </h4>
     <hr>
     <md-checkbox
       [checked]="statusSelected"
       [indeterminate]="statusIndeterminate"
-      [disableRipple]="true"
+      [disableRipple]="false"
       (change)="allStatusClicked()"
       align="start"
     >
@@ -31,19 +39,21 @@
       <md-checkbox
         [checked]="status.selected"
         (change)="filterClicked(status)"
-        [disableRipple]="true"
+        [disableRipple]="false"
         align="start"
       >
         {{ status.name }}
       </md-checkbox>
     </div>
 
-    <h4 class="app-sidenav-heading">Genres</h4>
+    <h4 class="app-sidenav-heading">
+      Genres
+    </h4>
     <hr>
     <md-checkbox
       [checked]="genresSelected"
       [indeterminate]="genresIndeterminate"
-      [disableRipple]="true"
+      [disableRipple]="false"
       (change)="allGenresClicked()"
       align="start"
     >
@@ -52,7 +62,7 @@
     <div *ngFor="let status of genres">
       <md-checkbox
         [checked]="status.selected"
-        [disableRipple]="true"
+        [disableRipple]="false"
         (change)="filterClicked(status)"
         align="start"
       >
@@ -61,7 +71,13 @@
     </div>
   </md-sidenav>
 
-  <div #content class="flex-container app-content" fxLayout="row" fxLayoutAlign="center start" fxLayoutWrap="wrap">
+  <div
+    #content
+    class="flex-container app-content"
+    fxLayout="row"
+    fxLayoutAlign="center start"
+    fxLayoutWrap="wrap"
+  >
 
     <div class="app-card"
          fxFlex="400px"
@@ -77,28 +93,69 @@
              height="71" width="384"
         >
         <md-card-content>
-          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
+          <div
+            class="flex-container"
+            fxLayout="row"
+            fxLayoutAlign="start"
+          >
             <div
               [ngClass]="{'app-selected-button':!show.display_overview,'':show.display_overview}"
               fxFlex="88px"
               fxFlexAlign="baseline"
             >
-              <button md-button (click)="tabSelected('seasons', show)">Seasons</button>
+              <button
+                md-button
+                (click)="tabSelected('seasons', show)"
+              >
+                Seasons
+              </button>
             </div>
             <div
               [ngClass]="{'app-selected-button':show.display_overview,'':!show.display_overview}"
               fxFlex="88px"
               fxFlexAlign="baseline"
             >
-              <button md-button (click)="tabSelected('overview', show)">Overview</button>
+              <button
+                md-button
+                (click)="tabSelected('overview', show)"
+              >
+                Overview
+              </button>
             </div>
           </div>
-          <div *ngIf="!show.display_overview" class="app-card-content">
-            <div class="flex-container" fxLayout="row" fxLayoutAlign="start start" fxLayoutWrap="wrap">
-              <div fxFlex="80px" fxFlexAlign="start" *ngFor="let season of show.seasons">
+          <div
+            *ngIf="!show.display_overview"
+            class="app-card-content"
+          >
+            <div
+              class="flex-container"
+              fxLayout="row"
+              fxLayoutAlign="start start"
+              fxLayoutWrap="wrap"
+            >
+              <div
+                *ngIf="show.seasons.length > 1"
+                fxFlex="80px"
+                fxFlexAlign="start"
+              >
+                <md-checkbox
+                  [checked]="allSeasonChecked(show)"
+                  [indeterminate]="show.seasons_indeterminate"
+                  [disableRipple]="false"
+                  (change)="allSeasonClicked(show)"
+                  align="start"
+                >
+                  all
+                </md-checkbox>
+              </div>
+              <div
+                fxFlex="80px"
+                fxFlexAlign="start"
+                *ngFor="let season of show.seasons"
+              >
                 <md-checkbox
                   [checked]="season.selected"
-                  [disableRipple]="true"
+                  [disableRipple]="false"
                   (change)="seasonClicked(show, season)"
                   align="start"
                 >
@@ -107,30 +164,70 @@
               </div>
             </div>
           </div>
-          <div *ngIf="show.display_overview" class="app-card-content">
+          <div
+            *ngIf="show.display_overview"
+            class="app-card-content"
+          >
             <p>{{show.overview}}</p>
           </div>
         </md-card-content>
         <md-card-footer>
-          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
-            <div fxFlex="90px" fxFlexAlign="baseline">
-              <div class="app-tag-accent">{{ show.quality }}</div>
+          <div
+            class="flex-container"
+            fxLayout="row"
+            fxLayoutAlign="start"
+          >
+            <div
+              fxFlex="90px"
+              fxFlexAlign="baseline"
+            >
+              <div class="app-tag-accent">
+                {{ show.quality }}
+              </div>
             </div>
-            <div fxFlex="90px" fxFlexAlign="baseline">
-              <div class="app-tag-accent">{{ show.network }}</div>
+            <div
+              fxFlex="90px"
+              fxFlexAlign="baseline"
+            >
+              <div class="app-tag-accent">
+                {{ show.network }}
+              </div>
             </div>
-            <div fxFlex="90px" fxFlexAlign="baseline">
-              <div [ngClass]="{'app-tag-accent':show.status==='Continuing','app-tag-warn':show.status==='Ended'}">
+            <div
+              fxFlex="90px"
+              fxFlexAlign="baseline"
+            >
+              <div
+                [ngClass]="{'app-tag-accent':show.status==='Continuing','app-tag-warn':show.status==='Ended'}"
+              >
                 {{ show.status }}
               </div>
             </div>
-            <div fxFlex="90px" fxFlexAlign="baseline">
-              <div class="app-tag-accent">{{ show.selected_file_size | fileSize }}</div>
+            <div
+              fxFlex="90px"
+              fxFlexAlign="baseline"
+            >
+              <div class="app-tag-accent">
+                {{ show.selected_file_size | fileSize }}
+              </div>
             </div>
           </div>
-          <div class="flex-container" fxLayout="row" fxLayoutAlign="start">
-            <div fxFlex="90px" fxFlexAlign="baseline" *ngFor="let genre of show.genres let i=index">
-              <div *ngIf="i<4" class="app-tag-primary">{{ genre.genre}} </div>
+          <div
+            class="flex-container"
+            fxLayout="row"
+            fxLayoutAlign="start"
+          >
+            <div
+              fxFlex="90px"
+              fxFlexAlign="baseline"
+              *ngFor="let genre of show.genres let i=index"
+            >
+              <div
+                *ngIf="i<4"
+                class="app-tag-primary"
+              >
+                {{ genre.genre}}
+              </div>
             </div>
           </div>
         </md-card-footer>

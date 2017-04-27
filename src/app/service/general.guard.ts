@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { tokenNotExpired } from 'angular2-jwt';
+import {Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {tokenNotExpired} from 'angular2-jwt';
 
 @Injectable()
 export class GeneralGuard implements CanActivate {
@@ -11,8 +11,9 @@ export class GeneralGuard implements CanActivate {
     if (!tokenNotExpired()) {
       return true;
     } else {
-      this.router.navigateByUrl('/content');
-      return false;
+      this.router.navigateByUrl('/content').then(() => {
+        return false;
+      });
     }
   }
 }
