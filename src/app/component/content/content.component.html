@@ -15,7 +15,6 @@
 
     <md-slide-toggle
       class="app-slide-margin"
-      [color]="accent"
       [checked]="myShows"
       (change)="myShowsClicked()"
     >
@@ -88,7 +87,7 @@
     >
       <md-card *ngIf="show.display_card">
         <img md-card-image
-             src="https://pompong.steenkamps.org/{{show.image_url}}"
+             src="{{url}}{{show.image_url}}"
              alt="{{show.show_name}}"
              height="71" width="384"
         >

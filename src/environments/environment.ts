@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  api_url: 'https://pompong.steenkamps.org/api/',
-  service_url: 'https://pompong.steenkamps.org/'
+  api_url: 'https://api.steenkamps.org/api/',
+  service_url: 'https://api.steenkamps.org/'
 };

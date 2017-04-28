@@ -5,6 +5,7 @@ import {ShowsFilterService} from '../../service/shows-filter.service';
 import {ShowsService} from '../../service/shows.service';
 import {Season} from '../../interfaces/season';
 import {Show} from '../../interfaces/show';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-content',
@@ -12,6 +13,7 @@ import {Show} from '../../interfaces/show';
   styleUrls: ['content.component.scss']
 })
 export class ContentComponent implements OnInit {
+  public url = environment.service_url;
 
   public shows;
   public filteredShows;

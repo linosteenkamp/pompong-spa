@@ -58,7 +58,7 @@
                     color="accent"
                     type="submit"
                     [disabled]="!loginForm.valid"
-                    (click)="onLogin(loginForm.value)"
+                    (click)="onLogin()"
                   >
                     Login
                   </button>
@@ -128,14 +128,13 @@
                 fxLayout="row"
                 fxLayoutAlign="end"
               >
-                <p class="app-error-msg"> {{errorMsg}} </p>
                 <span class="app-toolbar-filler"></span>
                 <div>
                   <button
                     md-raised-button
                     color="accent"
                     [disabled]="!registerForm.valid"
-                    (click)="onRegister(registerForm.value)"
+                    (click)="onRegister()"
                   >
                     Sign-up
                   </button>
