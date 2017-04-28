@@ -79,7 +79,7 @@
   >
 
     <div class="app-card"
-         fxFlex="400px"
+         fxFlex="380px"
          *ngFor="let show of filteredShows"
          in-viewport
          [inViewportOptions]="{ rootElement: content, partial: true }"
@@ -89,7 +89,7 @@
         <img md-card-image
              src="{{url}}{{show.image_url}}"
              alt="{{show.show_name}}"
-             height="71" width="384"
+             width="364"
         >
         <md-card-content>
           <div

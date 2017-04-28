@@ -5,7 +5,7 @@
   fxLayoutAlign="center center"
   fxLayoutWrap="wrap"
 >
-  <div fxFlex="400px">
+  <div fxFlex="370px">
     <md-card>
       <md-card-content>
         <h3> Hi there stranger! </h3>
@@ -13,12 +13,15 @@
           colour="accent"
           [(selectedIndex)]="tabIndex"
         >
-          <md-tab label="Login">
+          <md-tab
+            label="Login"
+            class="app-tab-group"
+          >
             <form [formGroup]="loginForm">
               <div class="app-card-content">
                 <p>
                   <md-input-container
-                    class="full-width"
+                    class="app-input"
                     dividerColor="accent"
                     floatPlaceholder="true"
                   >
@@ -34,7 +37,7 @@
                 </p>
                 <p>
                   <md-input-container
-                    class="full-width"
+                    class="app-input"
                     dividerColor="accent"
                   >
                     <input
@@ -78,7 +81,7 @@
               <div class="app-card-content">
                 <p>
                   <md-input-container
-                    class="full-width"
+                    class="app-input"
                     dividerColor="accent"
                     floatPlaceholder="true"
                   >
@@ -94,7 +97,7 @@
                 </p>
                 <p>
                   <md-input-container
-                    class="full-width"
+                    class="app-input"
                     dividerColor="accent"
                     floatPlaceholder="true"
                   >
@@ -110,7 +113,7 @@
                 </p>
                 <p>
                   <md-input-container
-                    class="full-width"
+                    class="app-input"
                     dividerColor="accent"
                   >
                     <input
