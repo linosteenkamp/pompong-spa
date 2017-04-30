@@ -1,14 +1,26 @@
 <md-sidenav-container class="app-container">
-  <button
-    md-fab
-    color="accent"
-    class="app-fab"
-    (click)="sidenav.toggle()"
-  >
-    <md-icon class="app-fab-icon">
-      keyboard_arrow_right
-    </md-icon>
-  </button>
+  <div>
+    <button
+      class="app-fab"
+      md-fab
+      color="accent"
+      (click)="sidenav.toggle()"
+    >
+      <md-icon class="app-fab-icon">
+        keyboard_arrow_right
+      </md-icon>
+    </button>
+  </div>
+
+  <div>
+    <md-spinner
+      *ngIf="isLoading"
+      class="app-spinner"
+      color="accent"
+    >
+    </md-spinner>
+
+  </div>
 
   <md-sidenav #sidenav class="app-sidenav">
     <h3 align="center">Filters</h3>
@@ -58,14 +70,14 @@
     >
       All
     </md-checkbox>
-    <div *ngFor="let status of genres">
+    <div *ngFor="let genre of genres">
       <md-checkbox
-        [checked]="status.selected"
+        [checked]="genre.selected"
         [disableRipple]="false"
-        (change)="filterClicked(status)"
+        (change)="filterClicked(genre)"
         align="start"
       >
-        {{ status.name }}
+        {{ genre.genre }}
       </md-checkbox>
     </div>
   </md-sidenav>

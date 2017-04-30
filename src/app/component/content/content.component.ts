@@ -4,8 +4,9 @@ import {FileSizeInfoService} from '../../service/file-size-info.service';
 import {ShowsFilterService} from '../../service/shows-filter.service';
 import {ShowsService} from '../../service/shows.service';
 import {Season} from '../../interfaces/season';
+import {Genre} from '../../interfaces/genre';
 import {Show} from '../../interfaces/show';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-content',
@@ -14,6 +15,7 @@ import {environment} from "../../../environments/environment";
 })
 export class ContentComponent implements OnInit {
   public url = environment.service_url;
+  public isLoading = true;
 
   public shows;
   public filteredShows;
@@ -41,14 +43,15 @@ export class ContentComponent implements OnInit {
     private showsFilter: ShowsFilterService,
     private fileSizeInfo: FileSizeInfoService,
     private ref: ChangeDetectorRef
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.statuses =  [
       { 'name': 'Continuing', 'selected': true },
       { 'name': 'Ended', 'selected': true },
     ];
-  }
-
-  ngOnInit() {
+    this.fileSizeInfo.selectedSize = 0;
+    this.fileSizeInfo.totalSize = 0;
     this.getShows();
     this.getGenres();
   }
@@ -57,6 +60,7 @@ export class ContentComponent implements OnInit {
     this.showsService.getShows().then(shows => {
       this.shows = shows;
       this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+      this.isLoading = false;
     });
   }
 
@@ -78,7 +82,6 @@ export class ContentComponent implements OnInit {
 
   seasonClicked(show: Show, season: Season): void {
     season.selected = !season.selected;
-
     this.fileSizeInfo.update(season, show);
     this.showsService.updateShow(show).subscribe();
     this.ref.detectChanges();
@@ -124,8 +127,8 @@ export class ContentComponent implements OnInit {
     this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 
-  filterClicked( status ): void {
-    status.selected = !status.selected;
+  filterClicked( genre: Genre ): void {
+    genre.selected = !genre.selected;
 
     this.genresIndeterminate = ContentComponent.isIndeterminate(this.genres);
     if (!this.genresIndeterminate) {

@@ -16,7 +16,7 @@ export class ShowsFilterService {
     return genres.some(function (item) {
       const genre = item.genre;
       return selection.some( function (thisItem) {
-        return (thisItem.name === genre && thisItem.selected === true);
+        return (thisItem.genre === genre && thisItem.selected === true);
       });
     });
   }
