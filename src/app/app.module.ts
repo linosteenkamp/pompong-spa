@@ -12,7 +12,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import 'hammerjs';
 import {
   MdToolbarModule, MdMenuModule, MdSidenavModule, MdTabsModule, MdDialogModule,
-  MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule, MdSlideToggleModule
+  MdButtonModule, MdIconModule, MdCheckboxModule, MdCardModule, MdInputModule, MdSlideToggleModule,
+  MdProgressSpinnerModule
 } from '@angular/material';
 
 // External components
@@ -72,6 +73,7 @@ import {FileSizePipe} from './pipe/file-size.pipe';
     MdTabsModule,
     MdDialogModule,
     MdSlideToggleModule,
+    MdProgressSpinnerModule,
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,

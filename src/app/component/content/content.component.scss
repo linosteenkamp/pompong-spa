@@ -14,8 +14,14 @@
   position: $position;
   top: 50%;
   -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+@mixin  horizontal-align-spinner($position: relative) {
+  right: -webkit-calc(50% - 50px);
+  right:    -moz-calc(50% - 50px);
+  right:         calc(50% - 50px);
 }
 
 .app-tag-primary{
@@ -54,6 +60,11 @@
   left: -28px;
 }
 
+.app-spinner {
+  @include vertical-align();
+  @include horizontal-align-spinner();
+  position: absolute;
+}
 .app-fab-icon {
   margin-left: 20px;
   color: white;

@@ -7,10 +7,11 @@ import {Observable} from 'rxjs/Observable';
 
 import {AuthHttp} from 'angular2-jwt';
 
-import {Show} from '../interfaces/show';
-import {Season} from '../interfaces/season';
-import {environment} from '../../environments/environment';
 import {FileSizeInfoService} from './file-size-info.service';
+import {environment} from '../../environments/environment';
+import {Season} from '../interfaces/season';
+import {Show} from '../interfaces/show';
+import {Genre} from '../interfaces/genre';
 
 @Injectable()
 export class ShowsService {
@@ -60,18 +61,12 @@ export class ShowsService {
       .catch(this.handleError);
   }
 
-  private mapGenres(response: Response) {
-    const body = response.json();
-    const genres = [];
-
-    for (let i = 0; i < body.length; i++) {
-      const tmp = {
-        'name': body[i].genre,
-        'selected': true
-      };
-      genres.push(tmp);
-    }
-    return genres;
+  private mapGenres = (response: Response) => {
+    const genres = response.json();
+    return genres.map(function(genre: Genre) {
+      genre.selected = true;
+      return genre;
+    });
   }
 
   private mapShows = (response: Response, fileSizeInfo: FileSizeInfoService) => {
