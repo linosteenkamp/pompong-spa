@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
+
 import {Season} from '../interfaces/season';
 
 @Injectable()
 export class ShowsFilterService {
 
   static statusFilter(show, selection) {
-    const showStatus = show.status;
-
     return selection.some(function (item) {
-      return (item.name === showStatus && item.selected === true);
+      return (item.name === show.status && item.selected === true);
     });
   }
 
@@ -27,9 +26,7 @@ export class ShowsFilterService {
     });
   }
 
-  constructor() {}
-
-  public filter (shows, myShows, statuses, genres) {
+  static filter (shows, myShows, statuses, genres) {
     return shows.filter(function (show) {
       return (
         ShowsFilterService.myShowsFilter(show.seasons, myShows)
@@ -38,4 +35,6 @@ export class ShowsFilterService {
       );
     });
   }
+
+  constructor() {}
 }

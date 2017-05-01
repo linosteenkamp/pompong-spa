@@ -20,8 +20,7 @@ export class ShowsService {
   static downloadFile(url) {
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'files.txt';
-    link.target = '_blank';
+    link.download = url.match('[^/]+$');
     link.click();
   }
 
@@ -62,7 +61,7 @@ export class ShowsService {
       .catch(this.handleError);
   }
 
-  private mapGenres = (response: Response) => {
+  private mapGenres (response: Response) {
     const genres = response.json();
     return genres.map(function(genre: Genre) {
       genre.selected = true;
@@ -70,7 +69,7 @@ export class ShowsService {
     });
   }
 
-  private mapShows = (response: Response, fileSizeInfo: FileSizeInfoService) => {
+  private mapShows(response: Response, fileSizeInfo: FileSizeInfoService) {
     const shows = response.json();
     return shows.map(function (show: Show) {
       show.display_card = false;
