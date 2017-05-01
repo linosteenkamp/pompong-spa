@@ -2,11 +2,10 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
 import {FileSizeInfoService} from '../../service/file-size-info.service';
 import {ShowsFilterService} from '../../service/shows-filter.service';
+import {environment} from '../../../environments/environment';
 import {ShowsService} from '../../service/shows.service';
 import {Season} from '../../interfaces/season';
-import {Genre} from '../../interfaces/genre';
 import {Show} from '../../interfaces/show';
-import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-content',
@@ -40,7 +39,6 @@ export class ContentComponent implements OnInit {
 
   constructor(
     private showsService: ShowsService,
-    private showsFilter: ShowsFilterService,
     private fileSizeInfo: FileSizeInfoService,
     private ref: ChangeDetectorRef
   ) {}
@@ -59,7 +57,7 @@ export class ContentComponent implements OnInit {
   getShows(): void {
     this.showsService.getShows().then(shows => {
       this.shows = shows;
-      this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+      this.filteredShows = ShowsFilterService.filter(this.shows, this.myShows, this.statuses, this.genres);
       this.isLoading = false;
     });
   }
@@ -110,24 +108,24 @@ export class ContentComponent implements OnInit {
 
   myShowsClicked(): void {
     this.myShows = !this.myShows;
-    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+    this.filteredShows = ShowsFilterService.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 
   allGenresClicked(): void {
     this.genresSelected = !this.genresSelected;
     this.genres.forEach(item => item.selected = this.genresSelected);
     this.genresIndeterminate = false;
-    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+    this.filteredShows = ShowsFilterService.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 
   allStatusClicked(): void {
     this.statusSelected = !this.statusSelected;
     this.statuses.forEach(item => item.selected = this.statusSelected);
     this.statusIndeterminate = false;
-    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+    this.filteredShows = ShowsFilterService.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 
-  filterClicked( genre: Genre ): void {
+  filterClicked( genre: any ): void {
     genre.selected = !genre.selected;
 
     this.genresIndeterminate = ContentComponent.isIndeterminate(this.genres);
@@ -140,6 +138,6 @@ export class ContentComponent implements OnInit {
       this.statusSelected = this.statuses[0].selected;
     }
 
-    this.filteredShows = this.showsFilter.filter(this.shows, this.myShows, this.statuses, this.genres);
+    this.filteredShows = ShowsFilterService.filter(this.shows, this.myShows, this.statuses, this.genres);
   }
 }

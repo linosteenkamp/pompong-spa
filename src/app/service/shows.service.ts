@@ -61,7 +61,7 @@ export class ShowsService {
       .catch(this.handleError);
   }
 
-  private mapGenres = (response: Response) => {
+  private mapGenres (response: Response) {
     const genres = response.json();
     return genres.map(function(genre: Genre) {
       genre.selected = true;
@@ -69,7 +69,7 @@ export class ShowsService {
     });
   }
 
-  private mapShows = (response: Response, fileSizeInfo: FileSizeInfoService) => {
+  private mapShows(response: Response, fileSizeInfo: FileSizeInfoService) {
     const shows = response.json();
     return shows.map(function (show: Show) {
       show.display_card = false;

@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
+import {FileSizeInfoService} from './service/file-size-info.service';
+import {environment} from '../environments/environment';
 import {ShowsService} from './service/shows.service';
 import {AuthService} from './service/auth.service';
-import {environment} from '../environments/environment';
-import {FileSizeInfoService} from './service/file-size-info.service';
 
 @Component({
   selector: 'app-root',
