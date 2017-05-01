@@ -20,8 +20,7 @@ export class ShowsService {
   static downloadFile(url) {
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'files.txt';
-    link.target = '_blank';
+    link.download = url.match('[^/]+$');
     link.click();
   }
 
