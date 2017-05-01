@@ -19,8 +19,9 @@ export class ShowsService {
 
   static downloadFile(url) {
     const link = document.createElement('a');
-    link.download = 'a';
     link.href = url;
+    link.download = 'files.txt';
+    link.target = '_blank';
     link.click();
   }
 
