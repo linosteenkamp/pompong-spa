@@ -89,6 +89,13 @@
     fxLayoutAlign="center start"
     fxLayoutWrap="wrap"
   >
+    <div
+      *ngIf="(filteredShows?.length < 1) && !isLoading"
+      class="app-spinner"
+    >
+      <img src="assets/ghost.gif">
+    </div>
+
 
     <div class="app-card"
          fxFlex="380px"
