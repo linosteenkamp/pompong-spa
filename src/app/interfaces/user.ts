@@ -4,7 +4,7 @@ export interface User {
   email: string;
   created_at: string;
   updated_at: string;
-  pivot: {
+  data: {
     season_id: number;
     user_id: number;
   };

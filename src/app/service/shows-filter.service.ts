@@ -12,7 +12,7 @@ export class ShowsFilterService {
   }
 
   static genreFilter(genres, selection) {
-    return genres.some(function (item) {
+    return genres.data.some(function (item) {
       const genre = item.genre;
       return selection.some( function (thisItem) {
         return (thisItem.genre === genre && thisItem.selected === true);
@@ -21,7 +21,7 @@ export class ShowsFilterService {
   }
 
   static myShowsFilter(season, myShows) {
-    return season.some(function (item: Season) {
+    return season.data.some(function (item: Season) {
       return myShows ? item.selected : true;
     });
   }

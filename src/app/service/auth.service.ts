@@ -12,26 +12,24 @@ export class AuthService {
 
   login(user) {
     return this.http
-      .post(this.url + 'login', user)
+      .post(this.url + 'user/login', user)
       .map(res => res.json());
   }
 
   register(user) {
     return this.http
-      .post(this.url + 'users', user)
+      .post(this.url + 'user', user)
       .map(res => res.json());
   }
 
   resetRequest(user) {
     return this.http
-      .post(this.url + 'resetRequest', user)
-      .map(res => res.json());
+      .post(this.url + 'user/forgot', user);
   }
 
   resetPassword(user) {
     return this.http
-      .post(this.url + 'resetPassword', user)
-      .map(res => res.json());
+      .post(this.url + 'user/reset', user);
   }
 
   loggedIn(): boolean {
