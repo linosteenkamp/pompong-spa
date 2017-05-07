@@ -6,5 +6,5 @@ export interface Season {
   season: number;
   file_size: number;
   selected: boolean;
-  users: Array<User>;
+  users: {data: Array<User>};
 }

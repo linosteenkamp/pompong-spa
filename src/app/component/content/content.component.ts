@@ -81,20 +81,20 @@ export class ContentComponent implements OnInit {
   seasonClicked(show: Show, season: Season): void {
     season.selected = !season.selected;
     this.fileSizeInfo.update(season, show);
-    this.showsService.updateShow(show).subscribe();
+    this.showsService.selectSeasons(show.seasons.data).subscribe();
     this.ref.detectChanges();
   }
 
   allSeasonChecked(show: Show) {
-    show.seasons_indeterminate = ContentComponent.isIndeterminate(show.seasons);
+    show.seasons_indeterminate = ContentComponent.isIndeterminate(show.seasons.data);
     if (!show.seasons_indeterminate) {
-      return show.seasons[0].selected;
+      return show.seasons.data[0].selected;
     }
   }
 
   allSeasonClicked(show: Show) {
-    const checked = show.seasons_indeterminate ? true : !show.seasons[0].selected;
-    show.seasons.forEach(season => {
+    const checked = show.seasons_indeterminate ? true : !show.seasons.data[0].selected;
+    show.seasons.data.forEach(season => {
       if (!season.selected === checked) {
         season.selected = checked;
         this.fileSizeInfo.update(season, show);
@@ -102,7 +102,7 @@ export class ContentComponent implements OnInit {
     });
 
     show.seasons_indeterminate = false;
-    this.showsService.updateShow(show).subscribe();
+    this.showsService.selectSeasons(show.seasons.data).subscribe();
     this.ref.detectChanges();
   }
 

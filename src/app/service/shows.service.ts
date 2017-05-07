@@ -48,22 +48,22 @@ export class ShowsService {
 
   public getRsyncFile() {
     return this.authHttp
-      .get(this.url + 'rsync')
+      .get(this.url + 'user/download')
       .toPromise()
       .then((res: Response) => res.json())
       .catch(this.handleError);
   }
 
-  public updateShow(show: Show): Observable<Show> {
+  public selectSeasons(data: any): Observable<Show> {
     return this.authHttp
-      .put(this.url + 'shows/' + show.id + '/update', show)
+      .post(this.url + 'user/select-seasons', data)
       .map(() => {})
       .catch(this.handleError);
   }
 
   private mapGenres (response: Response) {
     const genres = response.json();
-    return genres.map(function(genre: Genre) {
+    return genres.data.map(function(genre: Genre) {
       genre.selected = true;
       return genre;
     });
@@ -71,14 +71,14 @@ export class ShowsService {
 
   private mapShows(response: Response, fileSizeInfo: FileSizeInfoService) {
     const shows = response.json();
-    return shows.map(function (show: Show) {
+    return shows.data.map(function (show: Show) {
       show.display_card = false;
       show.display_overview = false;
       show.seasons_indeterminate = false;
       show.file_size = +0;
       show.selected_file_size = +0;
-      show.seasons.forEach(function (season: Season) {
-        season.selected = (season.users.length > 0);
+      show.seasons.data.forEach(function (season: Season) {
+        season.selected = (season.users.data.length > 0);
         if (season.selected) {
           show.selected_file_size += +season.file_size;
           fileSizeInfo.selectedSize +=  +season.file_size;

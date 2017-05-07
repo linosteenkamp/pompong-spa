@@ -17,8 +17,8 @@ export interface Show {
   updated_at: string;
   display_card: boolean;
   display_overview: boolean;
-  genres: Array<Genre>;
-  seasons: Array<Season>;
+  genres: {data: Array<Genre>};
+  seasons: {data: Array<Season>};
   seasons_indeterminate: boolean;
   file_size: number;
   selected_file_size: number;

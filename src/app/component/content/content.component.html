@@ -152,7 +152,7 @@
               fxLayoutWrap="wrap"
             >
               <div
-                *ngIf="show.seasons.length > 1"
+                *ngIf="show.seasons.data.length > 1"
                 fxFlex="80px"
                 fxFlexAlign="start"
               >
@@ -169,7 +169,7 @@
               <div
                 fxFlex="80px"
                 fxFlexAlign="start"
-                *ngFor="let season of show.seasons"
+                *ngFor="let season of show.seasons.data"
               >
                 <md-checkbox
                   [checked]="season.selected"
@@ -238,7 +238,7 @@
             <div
               fxFlex="90px"
               fxFlexAlign="baseline"
-              *ngFor="let genre of show.genres let i=index"
+              *ngFor="let genre of show.genres.data let i=index"
             >
               <div
                 *ngIf="i<4"
